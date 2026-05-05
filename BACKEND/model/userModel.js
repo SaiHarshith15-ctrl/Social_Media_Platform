@@ -1,4 +1,4 @@
-import {Schema,Types,model} from mongoose;
+import {Schema,Types,model} from 'mongoose';
 
 
 const UserSchema=new Schema({
@@ -52,7 +52,7 @@ const UserSchema=new Schema({
     }]
 },{
     timestamps:true,
-    versionkey:false,
+    versionkey:false
     
 })
 
