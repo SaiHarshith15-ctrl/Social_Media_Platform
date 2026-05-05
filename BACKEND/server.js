@@ -1,6 +1,7 @@
 import exp from "express"
 import {connect} from "mongoose"
 import {commonApp} from "./APIs/commonApi.js"
+import  cookieParser from 'cookie-parser'
 
 const app=exp()
 async function  connectDB(){
@@ -17,4 +18,19 @@ async function  connectDB(){
 connectDB()
 
 app.use(exp.json())
+app.use(cookieParser())
 app.use("/auth",commonApp)
+
+// Error handling middleware
+app.use((err,req,res,next)=>{
+    // ValidationError
+    if(err.name==="ValidationError"){
+        return res.status(400).json({message:"error occurred",error:err.message})
+    }
+    // CastError
+    if(err.name==="CastError"){
+        return res.status(400).json({message:"error occurred",error:err.message})
+    }
+    // send server side error
+    res.status(500).json({message:"error occured",error:err.message})
+})

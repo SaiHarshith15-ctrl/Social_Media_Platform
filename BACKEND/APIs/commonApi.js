@@ -2,6 +2,7 @@ import exp from "express"
 import {compare,hash} from 'bcryptjs'
 import {UserModel} from "../model/userModel.js"
 import jwt from "jsonwebtoken"
+import { verifyToken } from "../middlewares/verifyToken.js"
 
 
 export const commonApp = exp.Router()
@@ -26,7 +27,7 @@ commonApp.post("/login",async(req,res)=>{
         return res.status(400).json({message:"Email and Password is required"})
     }
     const user=await UserModel.findOne({email})
-    if(!user){
+    if(!user || !user.isUserActive){
         return res.status(404).json({message:"Email not found"})
     }
     const isMatched=await compare(password,user.password)
@@ -53,4 +54,28 @@ commonApp.post("/login",async(req,res)=>{
         secure:false
     })
     res.status(200).json({message:"Login success"})
+})
+
+
+// User Logout
+commonApp.get("/logout",(req,res)=>{
+    res.clearCookie("token",{
+        httpOnly:true,
+        sameSite:"lax",
+        secure:false
+    })
+    res.status(200).json({message:"Logout success"})
+})
+
+
+// User profile soft deletion
+commonApp.patch("/delete",verifyToken(),async(req,res)=>{
+    const user =req.user
+    let updatedUser=await UserModel.findById(user.id)
+    if(!updatedUser.isUserActive){
+        return res.status(200).json({message:"User is already inactive"})
+    }
+    updatedUser.isUserActive=false
+    await updatedUser.save()
+    res.status(200).json({message:"User deactivated",payload:updatedUser})
 })

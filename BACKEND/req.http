@@ -3,7 +3,7 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "email":"Harshit@gmail.com",
+    "email":"khasim@gmail.com",
     "password":"12345"
 }
 
@@ -19,3 +19,10 @@ Content-Type: application/json
     "password":"12345"
 
 }
+
+#### User Logout
+GET http://localhost:3000/auth/logout
+
+
+###Soft delete
+PATCH http://localhost:3000/auth/delete
