@@ -1,6 +1,7 @@
 import exp from "express"
 import {connect} from "mongoose"
 import {commonApp} from "./APIs/commonApi.js"
+import {likeApp} from "./APIs/likeApi.js"
 
 const app=exp()
 async function  connectDB(){
@@ -18,3 +19,4 @@ connectDB()
 
 app.use(exp.json())
 app.use("/auth",commonApp)
+app.use("/likes",likeApp)
