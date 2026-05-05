@@ -4,5 +4,5 @@ const likeApp=exp.Router()
 
 
 likeApp.post('/:postId',async(req,res)=>{
-
+     
 })
