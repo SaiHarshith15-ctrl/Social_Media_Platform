@@ -52,7 +52,7 @@ const UserSchema=new Schema({
     }]
 },{
     timestamps:true,
-    versionkey:false,
+    versionkey:false
     
 })
 

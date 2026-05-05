@@ -3,11 +3,24 @@ import {compare,hash} from 'bcryptjs'
 import {UserModel} from "../model/userModel.js"
 import jwt from "jsonwebtoken"
 
-export const loginApp=exp.Router()
+
+export const commonApp = exp.Router()
 const {sign} =jwt
 
-// User Login
-loginApp.post("/login",async(req,res)=>{
+// User registration
+commonApp.post('/register',async(req,res)=>{
+    const newuser = req.body
+    const hashed = await hash(newuser.password,12)
+    newuser.password = hashed
+    const newuserdocument = new UserModel(newuser)
+    newuser.password = hashed
+    await newuserdocument.save()
+    res.status(201).json({message:"user created"})
+})
+
+
+// User login
+commonApp.post("/login",async(req,res)=>{
     const {email,password}=req.body;
     if(!email || !password){
         return res.status(400).json({message:"Email and Password is required"})
