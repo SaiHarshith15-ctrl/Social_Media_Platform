@@ -1,5 +1,6 @@
 import exp from "express"
 import {connect} from "mongoose"
+import { loginApp } from "./APIs/loginAPI.js"
 
 const app=exp()
 async function  connectDB(){
@@ -14,3 +15,6 @@ async function  connectDB(){
     }
 }
 connectDB()
+
+app.use(exp.json())
+app.use("/auth",loginApp)
