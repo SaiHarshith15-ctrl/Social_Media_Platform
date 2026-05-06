@@ -15,3 +15,23 @@ Tech Stack :-
       -> Node.js
       -> Express.js
       -> MongoDB
+
+
+STEP 1 :- Creation of model (Schema)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
