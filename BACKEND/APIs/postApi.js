@@ -7,13 +7,8 @@ import { uploadToCloudinary } from "../config/cloudinaryUpload.js";
 
 export const postApp = exp.Router();
 
-<<<<<<< HEAD
 // create post
 postApp.post("/post", verifyToken(), async (req, res) => {
-=======
-// create user
-postApp.post("/post", verifyToken(), upload.single("postImage"), async (req, res) => {
->>>>>>> 192922f9d20d4ee668e9a1fb674da052f808ef25
   try {
     const { content, postImageUrl } = req.body;
     // console.log(req.body)
