@@ -27,7 +27,7 @@ GET http://localhost:3000/auth/logout
 ###Soft delete
 PATCH http://localhost:3000/auth/delete
 
-####
+#### create post
 POST http://localhost:3000/posts/post
 Content-Type: application/json
 
@@ -37,7 +37,6 @@ Content-Type: application/json
 }
 
 
-<<<<<<< HEAD
 ### Like or dislike a post
 PUT http://localhost:3000/likes/69f9bf657d85ee467444a9d5
 
@@ -52,21 +51,11 @@ POST http://localhost:3000/posts/69f9bf657d85ee467444a9d5
 Content-Type: application/json
 
 {
-    "comment":"Abcde"
+    "comment":"👌"
 }
 
 ### Delete comment
-DELETE http://localhost:3000/posts/69f9bf657d85ee467444a9d5/comment/69fac2968542b416e6de4028
+DELETE http://localhost:3000/posts/69f9bf657d85ee467444a9d5/comment/69fad593d881e15a50a88665
 
 #### Get users posts
 GET http://localhost:3000/posts/user/69f97a4b1f38adbae09d41a5
-=======
-###
-PUT http://localhost:3000/likes/69fac2b6251878f8861fa002
-
-####
-GET http://localhost:3000/posts/69fac2b6251878f8861fa002
-
-####
-DELETE  http://localhost:3000/posts/69fac2b6251878f8861fa002
->>>>>>> 192922f9d20d4ee668e9a1fb674da052f808ef25
