@@ -5,16 +5,25 @@ import exp from "express";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { PostModel } from "../model/postModel.js";
 import { UserModel } from "../model/userModel.js";
+import { upload } from "../middlewares/multer.js";
+import { uploadToCloudinary } from "../utils/cloudinaryUpload.js";
 
 export const postApp = exp.Router();
 
-postApp.post("/", verifyToken, async (req, res) => {
+postApp.post("/", verifyToken(), async (req, res) => {
   try {
     const { content, postImageUrl } = req.body;
 
     if (!content) {
       return res.status(400).json({ message: "Content is required" });
     }
+     // make imageurl as null
+    let imageUrl = null;
+    // here req.file comes from multer like it checks if user uploaded image then the image uploads the req.file.buffer converts into binary and stored
+    if (req.file) {
+        const result = await uploadToCloudinary(req.file.buffer);
+        imageUrl = result.secure_url;//db stores( url - http , secure_url-https )
+      }
 
     const newPost = new PostModel({
       user: req.user.id,
@@ -72,7 +81,7 @@ postApp.get("/:postId", async (req, res) => {
 
 
 
-postApp.delete("/:postId", verifyToken, async (req, res) => {
+postApp.delete("/:postId", verifyToken(), async (req, res) => {
   try {
     const post = await PostModel.findById(req.params.postId);
 
