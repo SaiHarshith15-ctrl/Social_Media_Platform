@@ -1,6 +1,3 @@
-
-
-
 import exp from "express";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { PostModel } from "../model/postModel.js";
@@ -10,9 +7,11 @@ import { uploadToCloudinary } from "../utils/cloudinaryUpload.js";
 
 export const postApp = exp.Router();
 
-postApp.post("/", verifyToken(), async (req, res) => {
+// create user
+postApp.post("/post", verifyToken(), async (req, res) => {
   try {
     const { content, postImageUrl } = req.body;
+    // console.log(req.body)
 
     if (!content) {
       return res.status(400).json({ message: "Content is required" });
@@ -62,7 +61,7 @@ postApp.get("/", async (req, res) => {
 });
 
 
-
+// get post
 postApp.get("/:postId", async (req, res) => {
   try {
     const post = await PostModel.findById(req.params.postId)
@@ -80,7 +79,7 @@ postApp.get("/:postId", async (req, res) => {
 });
 
 
-
+// delete post
 postApp.delete("/:postId", verifyToken(), async (req, res) => {
   try {
     const post = await PostModel.findById(req.params.postId);
