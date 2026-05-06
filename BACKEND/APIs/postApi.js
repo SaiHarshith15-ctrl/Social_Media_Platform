@@ -2,13 +2,13 @@ import exp from "express";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { PostModel } from "../model/postModel.js";
 import { UserModel } from "../model/userModel.js";
-import { upload } from "../middlewares/multer.js";
-import { uploadToCloudinary } from "../utils/cloudinaryUpload.js";
+import { upload } from "../config/multer.js";
+import { uploadToCloudinary } from "../config/cloudinaryUpload.js";
 
 export const postApp = exp.Router();
 
 // create user
-postApp.post("/post", verifyToken(), async (req, res) => {
+postApp.post("/post", verifyToken(), upload.single("postImage"), async (req, res) => {
   try {
     const { content, postImageUrl } = req.body;
     // console.log(req.body)
@@ -25,10 +25,10 @@ postApp.post("/post", verifyToken(), async (req, res) => {
       }
 
     const newPost = new PostModel({
-      user: req.user.id,
-      content,
-      postImageUrl,
-    });
+  user: req.user.id,
+  content,
+  postImageUrl: imageUrl,
+});
 
     await newPost.save();
 
