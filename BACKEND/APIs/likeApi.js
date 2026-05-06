@@ -5,7 +5,7 @@ import { PostModel } from '../model/postModel.js'
 export const likeApp = exp.Router()
 
 // Like or Unlike (toggle)
-likeApp.put('/:postId', verifyToken, async (req, res) => {
+likeApp.put('/:postId', verifyToken(), async (req, res) => {
     try {
         const post = await PostModel.findById(req.params.postId)
 
@@ -36,7 +36,7 @@ likeApp.put('/:postId', verifyToken, async (req, res) => {
 })
 
 // Get likes on a post
-likeApp.get('/:postId', verifyToken, async (req, res) => {
+likeApp.get('/:postId', verifyToken(), async (req, res) => {
     try {
         const post = await PostModel.findById(req.params.postId)
             .populate('likes', 'username profileImageUrl')

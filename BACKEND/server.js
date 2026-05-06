@@ -2,6 +2,8 @@ import exp from "express"
 import {connect} from "mongoose"
 import {commonApp} from "./APIs/commonApi.js"
 import  cookieParser from 'cookie-parser'
+import { postApp } from "./APIs/postApi.js"
+import { likeApp } from "./APIs/likeApi.js"
 import {likeApp} from "./APIs/likeApi.js"
 
 const app=exp()
@@ -21,4 +23,6 @@ connectDB()
 app.use(exp.json())
 app.use(cookieParser())
 app.use("/auth",commonApp)
+app.use("/posts",postApp)
+app.use("/likes",likeApp)
 app.use("/likes",likeApp)
