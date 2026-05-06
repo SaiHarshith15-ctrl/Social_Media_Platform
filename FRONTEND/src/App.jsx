@@ -1,11 +1,10 @@
 import React from 'react'
-import { createBrowserRouter, RouterProvider } from "react-router";
-import Home from './components/Home'
+import { createBrowserRouter, RouterProvider } from "react-router-dom";import Home from './components/Home'
 import RootLayout from './components/RootLayout';
 import Register from './components/Register';
 import Login from './components/Login';
 import Profile from './components/Profile';
-import { Children } from 'react';
+
 
 const App = () => {
   const routerObj = createBrowserRouter([

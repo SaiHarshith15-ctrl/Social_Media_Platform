@@ -12,8 +12,7 @@ import {
   secondaryBtn,
   linkClass,
 } from '../styles/common'
-import { NavLink } from 'react-router'
-
+import { NavLink } from 'react-router-dom'
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
