@@ -26,3 +26,23 @@ GET http://localhost:3000/auth/logout
 
 ###Soft delete
 PATCH http://localhost:3000/auth/delete
+
+
+####
+POST http://localhost:3000/posts/post
+Content-Type: application/json
+
+{
+    "content":"XYZ",
+    "postImageUrl":"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8QDg8QEA8…"
+}
+
+
+###
+PUT http://localhost:3000/likes/69f9bc152c35ce9aaf759d06
+
+####
+GET http://localhost:3000/posts/69f9bc152c35ce9aaf759d06
+
+####
+DELETE  http://localhost:3000/posts/69f9bc152c35ce9aaf759d06
