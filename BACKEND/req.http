@@ -55,5 +55,8 @@ Content-Type: application/json
     "comment":"Abcde"
 }
 
+### Delete comment
+DELETE http://localhost:3000/posts/69f9bf657d85ee467444a9d5/comment/69fac2968542b416e6de4028
+
 #### Get users posts
 GET http://localhost:3000/posts/user/69f97a4b1f38adbae09d41a5

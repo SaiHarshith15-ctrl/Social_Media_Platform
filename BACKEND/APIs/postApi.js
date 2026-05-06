@@ -131,3 +131,35 @@ postApp.post("/:postId", verifyToken(),async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
+
+// delete comment 
+postApp.delete("/:postId/comment/:commentId",verifyToken(),async(req,res)=>{
+      const {postId,commentId} =req.params;
+      const user=req.user;
+
+      const post =await PostModel.findById(postId);
+
+      if(!post){
+        return res.status(404).json({message:"Post not found"})
+      }
+
+      const comment=post.comments.id(commentId);
+      if(!comment){
+        return res.status(404).json({message:"comment not found"})
+      }
+      if(comment.user.toString()!==user.id){
+        return res.status(403).json({ message: "Unauthorized" });
+      }
+      // Delete comment
+        comment.deleteOne();
+
+        // Update comments count
+        post.commentsCount = post.comments.length;
+
+        await post.save();
+
+        res.status(200).json({ message: "Comment deleted successfully" });
+
+    
+
+})
