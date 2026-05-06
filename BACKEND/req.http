@@ -38,11 +38,22 @@ Content-Type: application/json
 }
 
 
-###
-PUT http://localhost:3000/likes/69f9bc152c35ce9aaf759d06
+### Like or dislike a post
+PUT http://localhost:3000/likes/69f9bf657d85ee467444a9d5
 
-####
-GET http://localhost:3000/posts/69f9bc152c35ce9aaf759d06
+#### Get post by id
+GET http://localhost:3000/posts/69f9bf657d85ee467444a9d5
 
-####
+#### delete a post
 DELETE  http://localhost:3000/posts/69f9bc152c35ce9aaf759d06
+
+#### Post comment
+POST http://localhost:3000/posts/69f9bf657d85ee467444a9d5
+Content-Type: application/json
+
+{
+    "comment":"Abcde"
+}
+
+#### Get users posts
+GET http://localhost:3000/posts/user/69f97a4b1f38adbae09d41a5

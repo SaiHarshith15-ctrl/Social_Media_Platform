@@ -4,7 +4,7 @@ import { Schema, Types, model } from "mongoose";
 const commentSchema = new Schema({
     user: {
         type: Types.ObjectId,
-        ref: "user",
+        ref: "User",
         required: [true, "user id required"]
     },
     comment: {
@@ -17,7 +17,7 @@ const postSchema = new Schema({
 
     user: {
         type: Types.ObjectId,
-        ref: "user",
+        ref: "User",
         required: true
     },
 
@@ -31,7 +31,7 @@ const postSchema = new Schema({
     
     likes: {
         type: [Types.ObjectId],
-        ref: "user",
+        ref: "User",
         default: []
     },
 

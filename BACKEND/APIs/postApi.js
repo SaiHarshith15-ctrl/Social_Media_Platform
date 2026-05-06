@@ -5,7 +5,7 @@ import { UserModel } from "../model/userModel.js";
 
 export const postApp = exp.Router();
 
-// create user
+// create post
 postApp.post("/post", verifyToken(), async (req, res) => {
   try {
     const { content, postImageUrl } = req.body;
@@ -53,7 +53,7 @@ postApp.get("/", async (req, res) => {
 
 
 // get post
-postApp.get("/:postId", async (req, res) => {
+postApp.get("/:postId",verifyToken(), async (req, res) => {
   try {
     const post = await PostModel.findById(req.params.postId)
       .populate("user", "username profileImageUrl")
@@ -98,15 +98,36 @@ postApp.delete("/:postId", verifyToken(), async (req, res) => {
 });
 
 
-
-postApp.get("/user/:userId", async (req, res) => {
+// Get all posts by user id
+postApp.get("/user/:userId",verifyToken(), async (req, res) => {
   try {
     const posts = await PostModel.find({ user: req.params.userId })
       .populate("user", "username profileImageUrl")
       .sort({ createdAt: -1 });
 
-    res.status(200).json({ posts });
+    res.status(200).json({ payload:posts });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+});
+
+// add comment to the post
+postApp.post("/:postId", verifyToken(),async (req, res) => {
+    try {
+        const { postId } = req.params;
+        const user= req.user;
+        const {comment } = req.body;
+
+        const post = await PostModel.findById(postId);
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+        post.comments.push({ user: user.id, comment });
+        post.commentsCount = post.comments.length;
+        await post.save();
+        res.status(201).json({ message: "Comment added successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
 });
