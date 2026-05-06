@@ -37,6 +37,16 @@ Content-Type: application/json
 }
 
 
+<<<<<<< HEAD
+###
+PUT http://localhost:3000/likes/69facefb317a9b9fccfcd992
+
+####
+GET http://localhost:3000/posts/69facefb317a9b9fccfcd992
+
+####
+DELETE  http://localhost:3000/posts/69fac2b6251878f8861fa002
+=======
 ### Like or dislike a post
 PUT http://localhost:3000/likes/69f9bf657d85ee467444a9d5
 
@@ -59,3 +69,4 @@ DELETE http://localhost:3000/posts/69f9bf657d85ee467444a9d5/comment/69fad593d881
 
 #### Get users posts
 GET http://localhost:3000/posts/user/69f97a4b1f38adbae09d41a5
+>>>>>>> fa9490957b83f06567812249b002b4ab6b38f22f
