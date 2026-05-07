@@ -1,9 +1,10 @@
 import React from 'react'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";import Home from './components/Home'
-import RootLayout from './components/RootLayout';
-import Register from './components/Register';
-import Login from './components/Login';
-import Profile from './components/Profile';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Home from './components/Home'
+import RootLayout from './components/RootLayout'
+import Register from './components/Register'
+import Login from './components/Login'
+import Profile from './components/Profile'
 
 
 const App = () => {

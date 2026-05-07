@@ -12,12 +12,18 @@ import {
   secondaryBtn,
   linkClass,
 } from '../styles/common'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useUser } from '../contexts/UserContext'
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   })
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const { login } = useUser()
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setFormData({
@@ -26,12 +32,20 @@ const Login = () => {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
+    setError('')
 
-    console.log(formData)
+    const result = await login(formData.email, formData.password)
 
-    // API CALL HERE
+    if (result.success) {
+      navigate('/user-profile')
+    } else {
+      setError(result.message)
+    }
+
+    setLoading(false)
   }
 
   return (
@@ -48,6 +62,12 @@ const Login = () => {
           <p className={`${bodyText} text-center mb-8`}>
             Login to continue to your social experience.
           </p>
+
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {error}
+            </div>
+          )}
 
           {/* Form */}
           <form onSubmit={handleSubmit}>
@@ -90,8 +110,9 @@ const Login = () => {
             <button
               type="submit"
               className={submitBtn}
+              disabled={loading}
             >
-              Login
+              {loading ? 'Logging in...' : 'Login'}
             </button>
           </form>
 

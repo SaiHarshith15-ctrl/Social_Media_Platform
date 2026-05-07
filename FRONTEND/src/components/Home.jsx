@@ -20,8 +20,7 @@ import {
 const Home = () => {
   return (
     <div className={pageBackground}>
-      
-      {/* Navbar */}
+            {/* Navbar */}
       <nav className={navbarClass}>
         <div className={navContainerClass}>
           
@@ -61,6 +60,7 @@ const Home = () => {
           </div>
         </div>
       </nav>
+
 
       {/* Main Content */}
       <main className={pageWrapper}>
