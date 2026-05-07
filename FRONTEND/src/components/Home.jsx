@@ -2,12 +2,6 @@ import React from 'react'
 import {
   pageBackground,
   pageWrapper,
-  navbarClass,
-  navContainerClass,
-  navBrandClass,
-  navLinksClass,
-  navLinkClass,
-  navLinkActiveClass,
   pageTitleClass,
   bodyText,
   primaryBtn,
@@ -20,54 +14,12 @@ import {
 const Home = () => {
   return (
     <div className={pageBackground}>
-            {/* Navbar */}
-      <nav className={navbarClass}>
-        <div className={navContainerClass}>
-          
-          {/* Logo */}
-          <h1 className={navBrandClass}>
-            SocialMediaPlatform
-          </h1>
-
-          {/* Nav Links */}
-          <div className={navLinksClass}>
-            <a href="#" className={navLinkActiveClass}>
-              Home
-            </a>
-
-            <a href="#" className={navLinkClass}>
-              Explore
-            </a>
-
-            <a href="#" className={navLinkClass}>
-              Notifications
-            </a>
-
-            <a href="#" className={navLinkClass}>
-              Profile
-            </a>
-          </div>
-
-          {/* Auth Buttons */}
-          <div className="flex items-center gap-3">
-            <button className={secondaryBtn}>
-              Login
-            </button>
-
-            <button className={primaryBtn}>
-              Sign Up
-            </button>
-          </div>
-        </div>
-      </nav>
-
-
       {/* Main Content */}
       <main className={pageWrapper}>
-        
+
         {/* Hero Section */}
         <section className={`${section} text-center`}>
-          
+
           <h1 className={`${pageTitleClass} max-w-4xl mx-auto`}>
             Connect, share and discover conversations that matter.
           </h1>
@@ -90,7 +42,7 @@ const Home = () => {
 
         {/* Features */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
+
           <div className={cardClass}>
             <h2 className={headingClass}>
               Create Posts

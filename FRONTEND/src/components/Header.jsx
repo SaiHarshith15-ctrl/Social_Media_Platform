@@ -1,6 +1,7 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { useUser } from '../contexts/UserContext'
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../Store/authStore";
+
 import {
   navbarClass,
   navContainerClass,
@@ -10,19 +11,24 @@ import {
   navLinkActiveClass,
   primaryBtn,
   secondaryBtn,
-} from '../styles/common'
+} from "../styles/common";
 
 const Header = () => {
-  const { user, logout } = useUser()
+  const {
+    currentUser,
+    isAuthenticated,
+    logout,
+  } = useAuth();
 
   const handleLogout = async () => {
-    await logout()
-    window.location.href = '/'
-  }
+    await logout();
+    window.location.href = "/";
+  };
 
   return (
     <nav className={navbarClass}>
       <div className={navContainerClass}>
+        
         {/* Logo */}
         <NavLink to="/" className={navBrandClass}>
           SocialMediaPlatform
@@ -33,17 +39,21 @@ const Header = () => {
           <NavLink
             to="/"
             className={({ isActive }) =>
-              isActive ? navLinkActiveClass : navLinkClass
+              isActive
+                ? navLinkActiveClass
+                : navLinkClass
             }
           >
             Home
           </NavLink>
 
-          {user && (
+          {isAuthenticated && (
             <NavLink
               to="/user-profile"
               className={({ isActive }) =>
-                isActive ? navLinkActiveClass : navLinkClass
+                isActive
+                  ? navLinkActiveClass
+                  : navLinkClass
               }
             >
               Profile
@@ -53,11 +63,13 @@ const Header = () => {
 
         {/* Auth Buttons */}
         <div className="flex items-center gap-3">
-          {user ? (
+          {isAuthenticated ? (
             <div className="flex items-center gap-3">
+              
               <span className="text-sm text-gray-700">
-                Welcome, {user.firstname}
+                Welcome, {currentUser?.firstname}
               </span>
+
               <button
                 onClick={handleLogout}
                 className={secondaryBtn}
@@ -67,10 +79,17 @@ const Header = () => {
             </div>
           ) : (
             <>
-              <NavLink to="/login" className={secondaryBtn}>
+              <NavLink
+                to="/login"
+                className={secondaryBtn}
+              >
                 Login
               </NavLink>
-              <NavLink to="/register" className={primaryBtn}>
+
+              <NavLink
+                to="/register"
+                className={primaryBtn}
+              >
                 Sign Up
               </NavLink>
             </>
@@ -78,7 +97,7 @@ const Header = () => {
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

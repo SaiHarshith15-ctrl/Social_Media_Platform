@@ -13,7 +13,7 @@ import {
   secondaryBtn,
   linkClass,
 } from '../styles/common'
-import { useUser } from '../contexts/UserContext'
+import { useAuth } from '../Store/authStore'
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +27,7 @@ const Register = () => {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
-  const { register } = useUser()
+  const { register } = useAuth()
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -147,7 +147,7 @@ const Register = () => {
               <textarea
                 name="bio"
                 placeholder="Tell people about yourself"
-                className={`${inputClass} min-h-[100px] resize-none`}
+                className={`${inputClass} min-h-25 resize-none`}
                 value={formData.bio}
                 onChange={handleChange}
               />

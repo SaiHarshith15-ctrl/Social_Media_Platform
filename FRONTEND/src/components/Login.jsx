@@ -13,7 +13,7 @@ import {
   linkClass,
 } from '../styles/common'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { useUser } from '../contexts/UserContext'
+import { useAuth } from '../Store/authStore'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +22,7 @@ const Login = () => {
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { login } = useUser()
+  const { login } = useAuth()
   const navigate = useNavigate()
 
   const handleChange = (e) => {

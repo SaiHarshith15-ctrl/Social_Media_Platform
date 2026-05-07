@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useUser } from '../contexts/UserContext'
+import { useAuth } from '../Store/authStore'
 import {
   pageBackground,
   pageWrapper,
@@ -11,13 +11,16 @@ import {
 } from '../styles/common'
 
 function Profile() {
-  const { user, logout } = useUser()
+  const { currentUser: user, logout, loading: authLoading } = useAuth()
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (user) {
       fetchProfileData()
+    } else {
+      setPosts([])
+      setLoading(false)
     }
   }, [user])
 
@@ -42,7 +45,7 @@ function Profile() {
     window.location.href = '/'
   }
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <div className={pageBackground}>
         <div className={pageWrapper}>
@@ -120,7 +123,7 @@ function Profile() {
               {posts.map((post) => (
                 <div key={post._id} className={cardClass}>
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center shrink-0">
                       {user.profileImageUrl ? (
                         <img
                           src={user.profileImageUrl}
