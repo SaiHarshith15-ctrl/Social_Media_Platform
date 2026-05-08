@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from "react-router";
 import {
   pageBackground,
   pageWrapper,
@@ -52,11 +53,22 @@ const Home = () => {
           {/* Auth Buttons */}
           <div className="flex items-center gap-3">
             <button className={secondaryBtn}>
-              Login
+              <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive ? navLinkActiveClass : navLinkClass
+                  }
+                  >
+                    Login
+                </NavLink>
             </button>
 
             <button className={primaryBtn}>
+              <NavLink 
+              to="/register">
+
               Sign Up
+              </NavLink>
             </button>
           </div>
         </div>
