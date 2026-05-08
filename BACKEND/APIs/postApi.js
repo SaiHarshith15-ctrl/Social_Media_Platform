@@ -172,3 +172,5 @@ postApp.delete("/:postId/comment/:commentId",verifyToken(),async(req,res)=>{
     
 
 })
+
+

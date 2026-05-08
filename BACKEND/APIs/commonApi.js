@@ -53,7 +53,9 @@ commonApp.post("/login",async(req,res)=>{
         sameSite:"lax",
         secure:false
     })
-    res.status(200).json({message:"Login success"})
+    const userObj=user.toObject()
+    delete userObj.password
+    res.status(200).json({message:"Login success",payload:userObj})
 })
 
 
@@ -66,7 +68,6 @@ commonApp.get("/logout",(req,res)=>{
     })
     res.status(200).json({message:"Logout success"})
 })
-
 
 // User profile soft deletion
 commonApp.patch("/delete",verifyToken(),async(req,res)=>{

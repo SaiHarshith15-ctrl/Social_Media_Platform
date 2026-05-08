@@ -4,8 +4,15 @@ import {commonApp} from "./APIs/commonApi.js"
 import  cookieParser from 'cookie-parser'
 import { postApp } from "./APIs/postApi.js"
 import { likeApp } from "./APIs/likeApi.js"
+import { notificationApp } from "./APIs/notificationApi.js"
+import { followApp } from "./APIs/followApi.js"
+import cors from 'cors'
 
 const app=exp()
+app.use(cors({
+    origin:['http://localhost:5173'],
+    credentials:true
+}))
 async function  connectDB(){
     try{
         await connect("mongodb://localhost:27017/SocialMediaPlatform")
@@ -24,6 +31,8 @@ app.use(cookieParser())
 app.use("/auth",commonApp)
 app.use("/posts",postApp)
 app.use("/likes",likeApp)
+app.use("/notification",notificationApp)
+app.use("/user",followApp)
 
 // Error handling middleware
 app.use((err,req,res,next)=>{
