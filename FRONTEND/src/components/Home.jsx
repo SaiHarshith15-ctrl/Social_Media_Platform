@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from "react-router";
 import {
   pageBackground,
   pageWrapper,
@@ -14,6 +15,59 @@ import {
 const Home = () => {
   return (
     <div className={pageBackground}>
+      
+      {/* Navbar */}
+      <nav className={navbarClass}>
+        <div className={navContainerClass}>
+          
+          {/* Logo */}
+          <h1 className={navBrandClass}>
+            SocialMediaPlatform
+          </h1>
+
+          {/* Nav Links */}
+          <div className={navLinksClass}>
+            <a href="#" className={navLinkActiveClass}>
+              Home
+            </a>
+
+            <a href="#" className={navLinkClass}>
+              Explore
+            </a>
+
+            <a href="#" className={navLinkClass}>
+              Notifications
+            </a>
+
+            <a href="#" className={navLinkClass}>
+              Profile
+            </a>
+          </div>
+
+          {/* Auth Buttons */}
+          <div className="flex items-center gap-3">
+            <button className={secondaryBtn}>
+              <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive ? navLinkActiveClass : navLinkClass
+                  }
+                  >
+                    Login
+                </NavLink>
+            </button>
+
+            <button className={primaryBtn}>
+              <NavLink 
+              to="/register">
+
+              Sign Up
+              </NavLink>
+            </button>
+          </div>
+        </div>
+      </nav>
+
       {/* Main Content */}
       <main className={pageWrapper}>
 

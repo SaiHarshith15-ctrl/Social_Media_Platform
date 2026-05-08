@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useAuth } from '../Store/authStore'
+import { useAuth } from '../store/authStore'
 import {
   pageBackground,
   pageWrapper,

@@ -11,13 +11,22 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.4",
+<<<<<<< HEAD
     "axios": "^1.6.5",
+=======
+    "axios": "^1.16.0",
+>>>>>>> 7c68369d3051c6e0b69cf0a3c52174a32f45480a
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
+    "react-hook-form": "^7.75.0",
     "react-router": "^7.15.0",
     "react-router-dom": "^7.15.0",
     "tailwindcss": "^4.2.4",
+<<<<<<< HEAD
     "zustand": "^4.4.1"
+=======
+    "zustand": "^5.0.13"
+>>>>>>> 7c68369d3051c6e0b69cf0a3c52174a32f45480a
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useForm } from "react-hook-form";
 import {
   pageBackground,
   pageWrapper,
@@ -8,45 +9,41 @@ import {
   labelClass,
   inputClass,
   submitBtn,
+  loadingClass,
   bodyText,
   secondaryBtn,
+  errorClass,
   linkClass,
 } from '../styles/common'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { useAuth } from '../Store/authStore'
+import { NavLink, useNavigate } from "react-router";
+import { useAuth } from '../store/authStore';
+import { useEffect } from "react";
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  })
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const { login } = useAuth()
-  const navigate = useNavigate()
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-
-    const result = await login(formData.email, formData.password)
-
-    if (result.success) {
-      navigate('/user-profile')
-    } else {
-      setError(result.message)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const navigate = useNavigate();
+  
+  const {login,currentUser,loading,error,isAuthenticated}=useAuth((state)=>state)
+  const onUserLogin = (userCredObj) => {
+    console.log(userCredObj);
+    login(userCredObj)
+  };
+  console.log("Current User: ",currentUser)
+  useEffect(()=>{
+    // navigation logic
+    if(isAuthenticated===true){
+        navigate("/user-profile")
     }
-
-    setLoading(false)
+  },[isAuthenticated,navigate])
+  
+  if(loading){
+    return <p className={loadingClass}>Loading...</p>
   }
+
 
   return (
     <div className={pageBackground}>
@@ -70,7 +67,7 @@ const Login = () => {
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onUserLogin)}>
             
             {/* Email */}
             <div className={formGroup}>
@@ -83,10 +80,12 @@ const Login = () => {
                 name="email"
                 placeholder="Enter your email"
                 className={inputClass}
-                value={formData.email}
-                onChange={handleChange}
-                required
+                {...register("email", {
+                required: "Email is required",
+                validate: (value) => value.trim().length > 0 || "Email cannot be empty",
+              })}
               />
+              {errors.email && <p className={errorClass}>{errors.email.message}</p>}
             </div>
 
             {/* Password */}
@@ -100,10 +99,12 @@ const Login = () => {
                 name="password"
                 placeholder="Enter your password"
                 className={inputClass}
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
+                {...register("password", {
+                required: "Password is required",
+                validate: (value) => value.trim().length > 0 || "Password cannot be empty",
+              })}
+            />
+            {errors.password && <p className={errorClass}>{errors.password.message}</p>}
             </div>
 
             {/* Submit */}

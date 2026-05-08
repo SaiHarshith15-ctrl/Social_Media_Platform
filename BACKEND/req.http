@@ -12,10 +12,10 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-    "firstname":"Mohiddin",
-    "lastname":"Khasim",
-    "email":"khasim@gmail.com",
-    "username":"Khasim",
+    "firstname":"Harshit",
+    "lastname":"Sai",
+    "email":"harshit@gmail.com",
+    "username":"harshit",
     "password":"12345"
 
 }
@@ -37,36 +37,31 @@ Content-Type: application/json
 }
 
 
-<<<<<<< HEAD
 ###
-PUT http://localhost:3000/likes/69facefb317a9b9fccfcd992
+PUT http://localhost:3000/likes/69f9bf657d85ee467444a9d5
 
 ####
 GET http://localhost:3000/posts/69facefb317a9b9fccfcd992
 
 ####
 DELETE  http://localhost:3000/posts/69fac2b6251878f8861fa002
-=======
-### Like or dislike a post
-PUT http://localhost:3000/likes/69f9bf657d85ee467444a9d5
 
-#### Get post by id
-GET http://localhost:3000/posts/69f9bf657d85ee467444a9d5
 
-#### delete a post
-DELETE  http://localhost:3000/posts/69f9bc152c35ce9aaf759d06
 
-#### Post comment
-POST http://localhost:3000/posts/69f9bf657d85ee467444a9d5
-Content-Type: application/json
+#### Get notification
+GET http://localhost:3000/notification
 
-{
-    "comment":"👌"
-}
+#### Mark notification as read
+PUT http://localhost:3000/notification/69fc2c782ea2b702138b0668/read
 
-### Delete comment
-DELETE http://localhost:3000/posts/69f9bf657d85ee467444a9d5/comment/69fad593d881e15a50a88665
 
-#### Get users posts
-GET http://localhost:3000/posts/user/69f97a4b1f38adbae09d41a5
->>>>>>> fa9490957b83f06567812249b002b4ab6b38f22f
+##### clear all notification
+DELETE http://localhost:3000/notification
+
+
+
+#### follow 
+PUT http://localhost:3000/user/69fc31e1e22788b2b941126e/follow
+
+#### Unfollow
+PUT http://localhost:3000/user/69fc31e1e22788b2b941126e/unfollow
