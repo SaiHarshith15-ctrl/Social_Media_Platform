@@ -59,7 +59,7 @@ router.post("/google", async (req, res) => {
       maxAge:   7 * 24 * 60 * 60 * 1000,   // 7 days in ms
     })
 
-    // 5. Return the user payload so the frontend store can set currentUser
+    // 5. Return the user payload so the frontend store can set currentUser ok ok 
     res.json({
       success: true,
       payload: {
