@@ -7,6 +7,7 @@ import { likeApp } from "./APIs/likeApi.js"
 import { notificationApp } from "./APIs/notificationApi.js"
 import { followApp } from "./APIs/followApi.js"
 import cors from 'cors'
+import googleAuthRoute from "./APIs/googleAuth.js"
 
 const app=exp()
 app.use(cors({
@@ -33,6 +34,7 @@ app.use("/posts",postApp)
 app.use("/likes",likeApp)
 app.use("/notification",notificationApp)
 app.use("/user",followApp)
+app.use("/auth", googleAuthRoute)
 
 // Error handling middleware
 app.use((err,req,res,next)=>{

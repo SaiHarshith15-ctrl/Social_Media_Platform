@@ -1,44 +1,45 @@
 import React, { useEffect } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Home from './components/Home'
-import RootLayout from './components/RootLayout'
-import Register from './components/Register'
-import Login from './components/Login'
-import Profile from './components/Profile'
+import Home        from './components/Home'
+import RootLayout  from './components/RootLayout'
+import Register    from './components/Register'
+import Login       from './components/Login'
+import UserProfile from './components/UserProfile'
+import Feed        from './components/Feed'
+import CreatePost  from './components/CreatePost'
 import ProtectedRoute from './components/ProtectedRoute'
-import { useAuth } from './Store/authStore'
+import { useAuth } from './store/authStore'
 
 const App = () => {
   const checkAuth = useAuth((state) => state.checkAuth)
 
-  useEffect(() => {
-    checkAuth()
-  }, [checkAuth])
+  useEffect(() => { checkAuth() }, [checkAuth])
 
   const routerObj = createBrowserRouter([
     {
       path: '/',
       element: <RootLayout />,
       children: [
+        { path: '',           element: <Home /> },
+        { path: 'register',   element: <Register /> },
+        { path: 'login',      element: <Login /> },
         {
-          path: '',
-          element: <Home />,
+          path: 'feed',
+          element: <ProtectedRoute><Feed /></ProtectedRoute>,
         },
         {
-          path: 'register',
-          element: <Register />,
+          path: 'create-post',
+          element: <ProtectedRoute><CreatePost /></ProtectedRoute>,
         },
         {
-          path: 'login',
-          element: <Login />,
-        },
-        {
+          // Own profile (no userId param)
           path: 'user-profile',
-          element: (
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          ),
+          element: <ProtectedRoute><UserProfile /></ProtectedRoute>,
+        },
+        {
+          // Any other user's profile
+          path: 'profile/:userId',
+          element: <ProtectedRoute><UserProfile /></ProtectedRoute>,
         },
       ],
     },

@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from "react-router";
+import { NavLink } from 'react-router-dom'
 import {
   pageBackground,
   pageWrapper,
@@ -12,68 +12,15 @@ import {
   section,
 } from '../styles/common'
 
+// NOTE: No <nav> here — RootLayout already renders <Header> for all pages.
+
 const Home = () => {
   return (
     <div className={pageBackground}>
-      
-      {/* Navbar */}
-      <nav className={navbarClass}>
-        <div className={navContainerClass}>
-          
-          {/* Logo */}
-          <h1 className={navBrandClass}>
-            SocialMediaPlatform
-          </h1>
-
-          {/* Nav Links */}
-          <div className={navLinksClass}>
-            <a href="#" className={navLinkActiveClass}>
-              Home
-            </a>
-
-            <a href="#" className={navLinkClass}>
-              Explore
-            </a>
-
-            <a href="#" className={navLinkClass}>
-              Notifications
-            </a>
-
-            <a href="#" className={navLinkClass}>
-              Profile
-            </a>
-          </div>
-
-          {/* Auth Buttons */}
-          <div className="flex items-center gap-3">
-            <button className={secondaryBtn}>
-              <NavLink
-                  to="/login"
-                  className={({ isActive }) =>
-                    isActive ? navLinkActiveClass : navLinkClass
-                  }
-                  >
-                    Login
-                </NavLink>
-            </button>
-
-            <button className={primaryBtn}>
-              <NavLink 
-              to="/register">
-
-              Sign Up
-              </NavLink>
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Main Content */}
       <main className={pageWrapper}>
 
         {/* Hero Section */}
         <section className={`${section} text-center`}>
-
           <h1 className={`${pageTitleClass} max-w-4xl mx-auto`}>
             Connect, share and discover conversations that matter.
           </h1>
@@ -84,49 +31,39 @@ const Home = () => {
           </p>
 
           <div className="flex items-center justify-center gap-4 mt-10">
-            <button className={primaryBtn}>
+            <NavLink to="/register" className={primaryBtn}>
               Get Started
-            </button>
-
-            <button className={secondaryBtn}>
-              Learn More
-            </button>
+            </NavLink>
+            <NavLink to="/login" className={secondaryBtn}>
+              Login
+            </NavLink>
           </div>
         </section>
 
         {/* Features */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
           <div className={cardClass}>
-            <h2 className={headingClass}>
-              Create Posts
-            </h2>
-
+            <h2 className={headingClass}>Create Posts</h2>
             <p className={`${bodyText} mt-3`}>
               Share thoughts, images and updates instantly with your followers.
             </p>
           </div>
 
           <div className={cardClass}>
-            <h2 className={headingClass}>
-              Follow Friends
-            </h2>
-
+            <h2 className={headingClass}>Follow Friends</h2>
             <p className={`${bodyText} mt-3`}>
               Build your own network and stay updated with the people you care about.
             </p>
           </div>
 
           <div className={cardClass}>
-            <h2 className={headingClass}>
-              Like & Comment
-            </h2>
-
+            <h2 className={headingClass}>Like & Comment</h2>
             <p className={`${bodyText} mt-3`}>
               Engage in conversations through likes, comments and interactions.
             </p>
           </div>
         </section>
+
       </main>
     </div>
   )

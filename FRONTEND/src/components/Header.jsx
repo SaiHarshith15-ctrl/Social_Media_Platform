@@ -1,7 +1,7 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import { useAuth } from "../Store/authStore";
-
+import React from "react"
+import { NavLink } from "react-router-dom"
+import { useAuth } from "../store/authStore"
+import Notifications from "./Notifications"
 import {
   navbarClass,
   navContainerClass,
@@ -11,24 +11,20 @@ import {
   navLinkActiveClass,
   primaryBtn,
   secondaryBtn,
-} from "../styles/common";
+} from "../styles/common"
 
 const Header = () => {
-  const {
-    currentUser,
-    isAuthenticated,
-    logout,
-  } = useAuth();
+  const { currentUser, isAuthenticated, logout } = useAuth()
 
   const handleLogout = async () => {
-    await logout();
-    window.location.href = "/";
-  };
+    await logout()
+    window.location.href = "/"
+  }
 
   return (
     <nav className={navbarClass}>
       <div className={navContainerClass}>
-        
+
         {/* Logo */}
         <NavLink to="/" className={navBrandClass}>
           SocialMediaPlatform
@@ -36,68 +32,54 @@ const Header = () => {
 
         {/* Nav Links */}
         <div className={navLinksClass}>
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive
-                ? navLinkActiveClass
-                : navLinkClass
-            }
-          >
+          <NavLink to="/"
+            className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
             Home
           </NavLink>
 
           {isAuthenticated && (
-            <NavLink
-              to="/user-profile"
-              className={({ isActive }) =>
-                isActive
-                  ? navLinkActiveClass
-                  : navLinkClass
-              }
-            >
-              Profile
-            </NavLink>
+            <>
+              <NavLink to="/feed"
+                className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
+                Feed
+              </NavLink>
+              <NavLink to="/create-post"
+                className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
+                + Post
+              </NavLink>
+              <NavLink to="/user-profile"
+                className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
+                Profile
+              </NavLink>
+            </>
           )}
         </div>
 
-        {/* Auth Buttons */}
+        {/* Right side */}
         <div className="flex items-center gap-3">
           {isAuthenticated ? (
             <div className="flex items-center gap-3">
-              
+              {/* 🔔 Bell icon */}
+              <Notifications />
+
               <span className="text-sm text-gray-700">
                 Welcome, {currentUser?.firstname}
               </span>
-
-              <button
-                onClick={handleLogout}
-                className={secondaryBtn}
-              >
+              <button onClick={handleLogout} className={secondaryBtn}>
                 Logout
               </button>
             </div>
           ) : (
             <>
-              <NavLink
-                to="/login"
-                className={secondaryBtn}
-              >
-                Login
-              </NavLink>
-
-              <NavLink
-                to="/register"
-                className={primaryBtn}
-              >
-                Sign Up
-              </NavLink>
+              <NavLink to="/login" className={secondaryBtn}>Login</NavLink>
+              <NavLink to="/register" className={primaryBtn}>Sign Up</NavLink>
             </>
           )}
         </div>
+
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

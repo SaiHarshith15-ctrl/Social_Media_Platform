@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useForm } from "react-hook-form";
+import React, { useEffect } from 'react'
+import { useForm } from "react-hook-form"
 import {
   pageBackground,
   pageWrapper,
@@ -11,50 +11,51 @@ import {
   submitBtn,
   loadingClass,
   bodyText,
-  secondaryBtn,
   errorClass,
   linkClass,
 } from '../styles/common'
-import { NavLink, useNavigate } from "react-router";
-import { useAuth } from '../store/authStore';
-import { useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom"
+import { useAuth } from '../store/authStore'   // lowercase 'store' — keep consistent
+import { GoogleLogin } from '@react-oauth/google'
 
 const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const navigate = useNavigate();
-  
-  const {login,currentUser,loading,error,isAuthenticated}=useAuth((state)=>state)
+  } = useForm()
+
+  const navigate = useNavigate()
+  const { login, googleLogin, currentUser, loading, error, isAuthenticated } = useAuth()
+
   const onUserLogin = (userCredObj) => {
-    console.log(userCredObj);
     login(userCredObj)
-  };
-  console.log("Current User: ",currentUser)
-  useEffect(()=>{
-    // navigation logic
-    if(isAuthenticated===true){
-        navigate("/user-profile")
-    }
-  },[isAuthenticated,navigate])
-  
-  if(loading){
-    return <p className={loadingClass}>Loading...</p>
   }
 
+  // navigate after successful login
+  useEffect(() => {
+    if (isAuthenticated === true) {
+      navigate("/user-profile")
+    }
+  }, [isAuthenticated, navigate])
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    const result = await googleLogin(credentialResponse.credential)
+    if (result?.success) {
+      navigate("/user-profile")
+    }
+  }
+
+  if (loading) {
+    return <p className={loadingClass}>Loading...</p>
+  }
 
   return (
     <div className={pageBackground}>
       <div className={pageWrapper}>
-        
         <div className={formCard}>
-          
-          {/* Title */}
-          <h1 className={formTitle}>
-            Welcome Back
-          </h1>
+
+          <h1 className={formTitle}>Welcome Back</h1>
 
           <p className={`${bodyText} text-center mb-8`}>
             Login to continue to your social experience.
@@ -66,53 +67,39 @@ const Login = () => {
             </div>
           )}
 
-          {/* Form */}
           <form onSubmit={handleSubmit(onUserLogin)}>
-            
+
             {/* Email */}
             <div className={formGroup}>
-              <label className={labelClass}>
-                Email Address
-              </label>
-
+              <label className={labelClass}>Email Address</label>
               <input
                 type="email"
-                name="email"
                 placeholder="Enter your email"
                 className={inputClass}
                 {...register("email", {
-                required: "Email is required",
-                validate: (value) => value.trim().length > 0 || "Email cannot be empty",
-              })}
+                  required: "Email is required",
+                  validate: (v) => v.trim().length > 0 || "Email cannot be empty",
+                })}
               />
               {errors.email && <p className={errorClass}>{errors.email.message}</p>}
             </div>
 
             {/* Password */}
             <div className={formGroup}>
-              <label className={labelClass}>
-                Password
-              </label>
-
+              <label className={labelClass}>Password</label>
               <input
                 type="password"
-                name="password"
                 placeholder="Enter your password"
                 className={inputClass}
                 {...register("password", {
-                required: "Password is required",
-                validate: (value) => value.trim().length > 0 || "Password cannot be empty",
-              })}
-            />
-            {errors.password && <p className={errorClass}>{errors.password.message}</p>}
+                  required: "Password is required",
+                  validate: (v) => v.trim().length > 0 || "Password cannot be empty",
+                })}
+              />
+              {errors.password && <p className={errorClass}>{errors.password.message}</p>}
             </div>
 
-            {/* Submit */}
-            <button
-              type="submit"
-              className={submitBtn}
-              disabled={loading}
-            >
+            <button type="submit" className={submitBtn} disabled={loading}>
               {loading ? 'Logging in...' : 'Login'}
             </button>
           </form>
@@ -120,30 +107,28 @@ const Login = () => {
           {/* Divider */}
           <div className="flex items-center gap-3 my-8">
             <div className="flex-1 border-t border-[#e8e8ed]" />
-            <span className="text-xs text-[#a1a1a6]">
-              OR
-            </span>
+            <span className="text-xs text-[#a1a1a6]">OR</span>
             <div className="flex-1 border-t border-[#e8e8ed]" />
           </div>
 
-          {/* Social Login */}
-          <button className={`${secondaryBtn} w-full`}>
-            Continue with Google
-          </button>
+          {/* Google Login */}
+          <div className="w-full flex justify-center">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={() => console.log("Google Login Failed")}
+            />
+          </div>
 
           {/* Footer */}
           <p className={`${bodyText} text-center text-sm mt-8`}>
-            Don’t have an account?{' '}
-            <span className="text-[#0066cc] cursor-pointer hover:text-[#004499]">
-              <NavLink to="/register" className={linkClass}>
-            Register
-          </NavLink>
-            </span>
+            Don't have an account?{' '}
+            <NavLink to="/register" className={linkClass}>Register</NavLink>
           </p>
+
         </div>
       </div>
     </div>
   )
 }
 
-export default Login  
+export default Login
