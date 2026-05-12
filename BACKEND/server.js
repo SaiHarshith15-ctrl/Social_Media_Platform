@@ -6,6 +6,7 @@ import { postApp } from "./APIs/postApi.js"
 import { likeApp } from "./APIs/likeApi.js"
 import { notificationApp } from "./APIs/notificationApi.js"
 import { followApp } from "./APIs/followApi.js"
+import { userApp } from "./APIs/userApi.js"
 import cors from 'cors'
 import googleAuthRoute from "./APIs/googleAuth.js"
 
@@ -34,6 +35,7 @@ app.use("/posts",postApp)
 app.use("/likes",likeApp)
 app.use("/notification",notificationApp)
 app.use("/user",followApp)
+app.use("/user", userApp)
 app.use("/auth", googleAuthRoute)
 
 // Error handling middleware

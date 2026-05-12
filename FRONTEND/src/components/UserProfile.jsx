@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../store/authStore'
 import { pageBackground, pageWrapper, cardClass, headingClass, bodyText, secondaryBtn } from '../styles/common'
 
+
 function UserProfile() {
   const { userId }             = useParams()
   const { currentUser, logout } = useAuth()
@@ -15,6 +16,14 @@ function UserProfile() {
   const [user, setUser]     = useState(isOwnProfile ? currentUser : null)
   const [posts, setPosts]   = useState([])
   const [loading, setLoading] = useState(true)
+
+  
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [editForm, setEditForm] = useState({ bio: '', password: '' })
+  const [editImage, setEditImage] = useState(null)
+  const [editPreview, setEditPreview] = useState(null)
+  const [editLoading, setEditLoading] = useState(false)
+  const [editError, setEditError] = useState('')
 
   useEffect(() => {
     if (!targetId) return
@@ -48,7 +57,38 @@ function UserProfile() {
 
   if (loading) return <div className={pageBackground}><div className={pageWrapper}><p className="text-center py-20">Loading...</p></div></div>
   if (!user)   return <div className={pageBackground}><div className={pageWrapper}><p className="text-center py-20">User not found.</p></div></div>
+  
 
+  
+  const handleEditSubmit = async () => {
+  setEditLoading(true)
+  setEditError('')
+  try {
+    const formData = new FormData()
+    if (editForm.bio) formData.append('bio', editForm.bio)
+    if (editForm.password) formData.append('password', editForm.password)
+    if (editImage) formData.append('image', editImage)
+
+    const res = await fetch(`http://localhost:3000/user/edit-profile`, {
+      method: 'PUT',
+      credentials: 'include',
+      body: formData,
+    })
+    const data = await res.json()
+    if (res.ok) {
+      setUser(prev => ({ ...prev, ...data.payload }))
+      setShowEditModal(false)
+      setEditImage(null)
+      setEditPreview(null)
+    } else {
+      setEditError(data.message || 'Update failed')
+    }
+  } catch (err) {
+    setEditError('Something went wrong')
+  } finally {
+    setEditLoading(false)
+  }
+}
   return (
     <div className={pageBackground}>
       <div className={pageWrapper}>
@@ -73,9 +113,12 @@ function UserProfile() {
                 <span className={bodyText}><strong>{posts.length}</strong> Posts</span>
               </div>
             </div>
-
+             ////
             {isOwnProfile ? (
-              <button onClick={handleLogout} className={secondaryBtn}>Logout</button>
+                <div className="flex flex-col gap-2">
+               <button onClick={() => setShowEditModal(true)} className="bg-black text-white text-sm px-5 py-2 rounded-full hover:bg-gray-800 transition">Edit Profile</button>
+               <button onClick={handleLogout} className={secondaryBtn}>Logout</button>
+             </div>
             ) : (
               <button className="bg-black text-white text-sm px-5 py-2 rounded-full hover:bg-gray-800 transition">
                 Follow
@@ -131,6 +174,62 @@ function UserProfile() {
         </div>
 
       </div>
+
+      ////
+      {showEditModal && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl">
+      <h2 className="text-lg font-bold mb-4">Edit Profile</h2>
+      {editError && <p className="text-red-500 text-sm mb-3">{editError}</p>}
+
+      {/* Profile Picture */}
+      <div className="flex flex-col items-center mb-4">
+        <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-300 mb-2">
+          {editPreview
+            ? <img src={editPreview} className="w-full h-full object-cover" />
+            : user.profileImageUrl
+              ? <img src={user.profileImageUrl} className="w-full h-full object-cover" />
+              : <span className="flex items-center justify-center h-full text-xl font-bold text-gray-600">{user.firstname?.[0]}</span>
+          }
+        </div>
+        <label className="cursor-pointer text-sm text-blue-600 hover:underline">
+          Change Photo
+          <input type="file" accept="image/*" className="hidden" onChange={e => {
+            const f = e.target.files[0]
+            if (f) { setEditImage(f); setEditPreview(URL.createObjectURL(f)) }
+          }} />
+        </label>
+      </div>
+
+      {/* Bio */}
+      <textarea
+        placeholder={user.bio || 'Update your bio...'}
+        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-3 resize-none outline-none focus:border-black"
+        rows={3}
+        onChange={e => setEditForm(p => ({ ...p, bio: e.target.value }))}
+      />
+
+      {/* Password */}
+      <input
+        type="password"
+        placeholder="New password (leave blank to keep)"
+        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 outline-none focus:border-black"
+        onChange={e => setEditForm(p => ({ ...p, password: e.target.value }))}
+      />
+
+      <div className="flex gap-3">
+        <button onClick={() => setShowEditModal(false)}
+          className="flex-1 border border-gray-300 text-sm py-2 rounded-full hover:bg-gray-50">
+          Cancel
+        </button>
+        <button onClick={handleEditSubmit} disabled={editLoading}
+          className="flex-1 bg-black text-white text-sm py-2 rounded-full hover:bg-gray-800">
+          {editLoading ? 'Saving...' : 'Save'}
+        </button>
+      </div>
+    </div>
+  </div>
+  )}
     </div>
   )
 }

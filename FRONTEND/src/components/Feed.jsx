@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../store/authStore'
 import { cardClass, bodyText } from '../styles/common'
+import Sidebar from '../components/Sidebar'
 
 const HomeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -251,30 +252,10 @@ const Feed = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-
-      {/* LEFT SIDEBAR */}
-      <aside className="w-16 min-h-screen flex flex-col items-center gap-8 py-8 border-r border-gray-200 bg-white shrink-0 sticky top-0 h-screen">
-        <button onClick={() => navigate('/')} className="text-gray-500 hover:text-black transition" title="Home">
-          <HomeIcon />
-        </button>
-        <button onClick={() => navigate('/feed')} className="text-black" title="Feed">
-          <SearchIcon />
-        </button>
-        <button onClick={() => navigate('/create-post')} className="text-gray-500 hover:text-black transition" title="Create Post">
-          <PlusIcon />
-        </button>
-        <button onClick={() => navigate('/user-profile')} className="text-gray-500 hover:text-black transition" title="Profile">
-          <div className="w-7 h-7 rounded-full bg-gray-300 overflow-hidden flex items-center justify-center">
-            {currentUser?.profileImageUrl
-              ? <img src={currentUser.profileImageUrl} alt="me" className="w-full h-full object-cover" />
-              : <span className="text-xs font-bold text-gray-600">{currentUser?.firstname?.[0]}</span>
-            }
-          </div>
-        </button>
-      </aside>
+      <Sidebar />
 
       {/* MAIN */}
-      <main className="flex-1 max-w-2xl mx-auto px-4 py-8">
+      <main className="ml-20 flex-1 max-w-2xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl font-bold">New Posts</h1>
           <button onClick={() => navigate('/create-post')}

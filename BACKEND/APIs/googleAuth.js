@@ -46,7 +46,7 @@ router.post("/google", async (req, res) => {
     // 3. Sign a JWT the same way your normal login does
     const token = jwt.sign(
       { id: user._id, email: user.email },
-      process.env.JWT_SECRET,
+      "hufhigjfigjiof",
       { expiresIn: "7d" }
     )
 

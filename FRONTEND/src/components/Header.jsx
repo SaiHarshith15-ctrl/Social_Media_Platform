@@ -16,6 +16,9 @@ import {
 const Header = () => {
   const { currentUser, isAuthenticated, logout } = useAuth()
 
+ 
+    if (isAuthenticated) return null
+
   const handleLogout = async () => {
     await logout()
     window.location.href = "/"

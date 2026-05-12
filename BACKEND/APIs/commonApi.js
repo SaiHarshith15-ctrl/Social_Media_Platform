@@ -59,6 +59,19 @@ commonApp.post("/login",async(req,res)=>{
 })
 
 
+////
+// Check auth
+commonApp.get("/check-auth", verifyToken(), async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user.id).select('-password')
+    if (!user) return res.status(401).json({ message: "Not authenticated" })
+    res.status(200).json({ payload: user })
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+})
+
+
 // User Logout
 commonApp.get("/logout",(req,res)=>{
     res.clearCookie("token",{

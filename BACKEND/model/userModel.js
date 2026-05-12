@@ -60,6 +60,9 @@ const UserSchema = new Schema({
             ref: "User"
         }
     ],
+    interests: [{
+            type: String
+        }],
     notifications: [{
         type: {
             type: String,

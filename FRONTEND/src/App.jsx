@@ -8,6 +8,8 @@ import UserProfile from './components/UserProfile'
 import Feed        from './components/Feed'
 import CreatePost  from './components/CreatePost'
 import ProtectedRoute from './components/ProtectedRoute'
+import Search from './pages/Search'
+import NotificationsPage from './pages/NotificationsPage'
 import { useAuth } from './store/authStore'
 
 const App = () => {
@@ -40,6 +42,23 @@ const App = () => {
           // Any other user's profile
           path: 'profile/:userId',
           element: <ProtectedRoute><UserProfile /></ProtectedRoute>,
+        },
+        {
+          path: 'search',
+          element: (
+            <ProtectedRoute>
+              <Search />
+            </ProtectedRoute>
+          ),
+        },
+
+        {
+          path: 'notifications',
+          element: (
+            <ProtectedRoute>
+              <NotificationsPage />
+            </ProtectedRoute>
+          ),
         },
       ],
     },
