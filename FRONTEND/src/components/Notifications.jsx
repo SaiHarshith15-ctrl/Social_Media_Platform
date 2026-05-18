@@ -39,7 +39,7 @@ const Notifications = () => {
   const fetchNotifications = async () => {
     setLoading(true)
     try {
-      const res = await fetch('http://localhost:3000/notification', {
+      const res = await fetch('${import.meta.env.VITE_API_URL}/notification', {
         credentials: 'include',
       })
       if (res.ok) {
@@ -55,7 +55,7 @@ const Notifications = () => {
 
   const markAsRead = async (notifId) => {
     try {
-      await fetch(`http://localhost:3000/notification/${notifId}/read`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/notification/${notifId}/read`, {
         method: 'PUT', credentials: 'include',
       })
       setNotifications(prev =>
@@ -66,7 +66,7 @@ const Notifications = () => {
 
   const clearAll = async () => {
     try {
-      await fetch('http://localhost:3000/notification', {
+      await fetch('${import.meta.env.VITE_API_URL}/notification', {
         method: 'DELETE', credentials: 'include',
       })
       setNotifications([])

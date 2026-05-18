@@ -26,7 +26,7 @@ function Profile() {
   const fetchUserPosts = async () => {
     try {
       // Uses the correct endpoint: GET /posts/user/:userId (protected)
-      const response = await fetch(`http://localhost:3000/posts/user/${user._id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/user/${user._id}`, {
         credentials: 'include',
       })
       if (response.ok) {

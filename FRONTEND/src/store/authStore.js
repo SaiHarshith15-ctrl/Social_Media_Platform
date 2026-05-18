@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import axios from 'axios'
 import { applyTheme } from '../styles/themes'
+
 export const useAuth = create((set) => ({
 
   currentUser: null,
@@ -14,7 +15,7 @@ export const useAuth = create((set) => ({
       set({ loading: true, error: null })
 
       const res = await axios.post(
-        "http://localhost:3000/auth/register",
+        `${import.meta.env.VITE_API_URL}/auth/register`,
         formData,
         { withCredentials: true }
       )
@@ -37,7 +38,7 @@ export const useAuth = create((set) => ({
       set({ loading: true, error: null })
 
       const res = await axios.post(
-        "http://localhost:3000/auth/login",
+        `${import.meta.env.VITE_API_URL}/auth/login`,
         userCredObj,
         { withCredentials: true }
       )
@@ -64,7 +65,7 @@ export const useAuth = create((set) => ({
       set({ loading: true, error: null })
 
       const res = await axios.post(
-        "http://localhost:3000/auth/google",
+        `${import.meta.env.VITE_API_URL}/auth/google`,
         { credential },
         { withCredentials: true }
       )
@@ -94,13 +95,18 @@ export const useAuth = create((set) => ({
       set({ loading: true, error: null })
 
       await axios.get(
-        "http://localhost:3000/auth/logout",
+        `${import.meta.env.VITE_API_URL}/auth/logout`,
         { withCredentials: true }
       )
 
       applyTheme('light')
       localStorage.setItem('app-theme', 'light')
-      set({ loading: false, isAuthenticated: false, currentUser: null })
+
+      set({
+        loading: false,
+        isAuthenticated: false,
+        currentUser: null
+      })
 
     } catch (err) {
       set({
@@ -118,7 +124,7 @@ export const useAuth = create((set) => ({
       set({ loading: true })
 
       const res = await axios.get(
-        "http://localhost:3000/auth/check-auth",
+        `${import.meta.env.VITE_API_URL}/auth/check-auth`,
         { withCredentials: true }
       )
 
@@ -129,7 +135,11 @@ export const useAuth = create((set) => ({
       })
 
     } catch (err) {
-      set({ currentUser: null, isAuthenticated: false, loading: false })
+      set({
+        currentUser: null,
+        isAuthenticated: false,
+        loading: false
+      })
     }
   },
 

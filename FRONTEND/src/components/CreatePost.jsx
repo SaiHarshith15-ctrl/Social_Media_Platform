@@ -45,7 +45,7 @@ const CreatePost = () => {
       if (category) formData.append('category', category)
       if (image) formData.append('image', image)
 
-      const res = await fetch('http://localhost:3000/posts/post', {
+      const res = await fetch('${import.meta.env.VITE_API_URL}/posts/post', {
         method: 'POST',
         credentials: 'include',
         body: formData,

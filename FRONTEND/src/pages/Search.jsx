@@ -25,7 +25,7 @@ const Search = () => {
     setLoadingPosts(true)
     try {
       const q = interests.length > 0 ? `?interests=${interests.join(',')}` : ''
-      const res = await fetch(`http://localhost:3000/posts/by-interests${q}`, { credentials: 'include' })
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/posts/by-interests${q}`, { credentials: 'include' })
       if (res.ok) {
         const data = await res.json()
         setPosts(data.posts || [])
@@ -40,7 +40,7 @@ const Search = () => {
     if (!val.trim()) { setUserResults([]); return }
     setSearching(true)
     try {
-      const res = await fetch(`http://localhost:3000/user/search/${val}`, { credentials: 'include' })
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/search/${val}`, { credentials: 'include' })
       const data = await res.json()
       setUserResults(data.payload || [])
     } catch (err) { console.error(err) }

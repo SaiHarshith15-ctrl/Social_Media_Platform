@@ -6,14 +6,14 @@ const NotificationsPage = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('http://localhost:3000/notification', { credentials: 'include' })
+    fetch('${import.meta.env.VITE_API_URL}/notification', { credentials: 'include' })
       .then(r => r.json())
       .then(d => setNotifications(d.notifications || []))
       .finally(() => setLoading(false))
   }, [])
 
   const clearAll = async () => {
-    await fetch('http://localhost:3000/notification', { method: 'DELETE', credentials: 'include' })
+    await fetch('${import.meta.env.VITE_API_URL}/notification', { method: 'DELETE', credentials: 'include' })
     setNotifications([])
   }
 
