@@ -18,7 +18,7 @@ app.use(cors({
 async function  connectDB(){
     try{
         //mongodb://localhost:27017/SocialMediaPlatform
-        await connect(" mongodb+srv://socialmediaplatformDB:Harshith15@cluster0.nxkzuzz.mongodb.net/?appName=Cluster0")
+        await connect("mongodb+srv://socialmediaplatformDB:Harshith15@cluster0.nxkzuzz.mongodb.net/?appName=Cluster0")
         console.log("DB connected sucessfully")
         
         // start server
