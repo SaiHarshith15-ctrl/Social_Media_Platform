@@ -27,7 +27,8 @@ postApp.post("/post", verifyToken(), upload.single("image"), async (req, res) =>
       user: req.user.id,
       content,
       postImageUrl: imageUrl,
-    });
+      category: req.body.category || ''
+    })
 
     await newPost.save();
 
@@ -161,3 +162,25 @@ postApp.delete("/:postId/comment/:commentId", verifyToken(), async (req, res) =>
 
   res.status(200).json({ message: "Comment deleted successfully" });
 });
+
+
+// Get posts filtered by interests array
+postApp.get('/by-interests', async (req, res) => {
+  try {
+    const { interests, page = 1, limit = 10 } = req.query
+    const interestArr = interests ? interests.split(',') : []
+    
+    const query = interestArr.length > 0 ? { category: { $in: interestArr } } : {}
+    
+    const posts = await PostModel.find(query)
+      .populate('user', 'username profileImageUrl')
+      .populate('comments.user', 'username profileImageUrl')
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(Number(limit))
+
+    res.status(200).json({ posts })
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+})

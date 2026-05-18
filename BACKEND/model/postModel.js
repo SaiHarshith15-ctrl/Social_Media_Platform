@@ -49,7 +49,12 @@ const postSchema = new Schema({
     commentsCount: {
         type: Number,
         default: 0
-    }
+    },
+
+    category: {
+        type: String,
+        default: ''
+     }
 
 }, {
     timestamps: true,

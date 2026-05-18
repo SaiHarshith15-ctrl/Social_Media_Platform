@@ -8,7 +8,10 @@ import { hash } from 'bcryptjs'
 export const userApp = exp.Router()
 
 // GET user by ID
-userApp.get('/:userId', verifyToken(), async (req, res) => {
+// GET user by ID — skip if it looks like a follow/unfollow/search route
+userApp.get('/:userId', verifyToken(), async (req, res, next) => {
+  const skip = ['edit-profile', 'search']
+  if (skip.includes(req.params.userId)) return next()
   try {
     const user = await UserModel.findById(req.params.userId).select('-password')
     if (!user) return res.status(404).json({ message: 'User not found' })

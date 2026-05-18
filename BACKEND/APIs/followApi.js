@@ -53,9 +53,8 @@ followApp.put('/:id/follow', verifyToken(), async (req, res) => {
     if (targetUser.isPrivate) {
 
       // Already requested
-      const alreadyRequested =
-        targetUser.followRequests.includes(currentUserId)
-
+      const alreadyFollowing =
+      currentUser.following.some(id => id.toString() === targetUserId)
       if (alreadyRequested) {
         return res.status(400).json({
           message: "Follow request already sent"
@@ -133,7 +132,7 @@ followApp.put('/:id/unfollow', verifyToken(), async (req, res) => {
             message: "User not found"
         })
         }
-        const isFollowing=currentUser.following.includes(targetUser._id)
+        const isFollowing = currentUser.following.some(id => id.toString() === targetUserId)
         if(!isFollowing){
             return res.status(400).json({
                 message:"You are not following this user"

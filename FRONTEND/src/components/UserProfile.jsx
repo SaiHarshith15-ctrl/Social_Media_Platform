@@ -4,6 +4,71 @@ import { useAuth } from '../store/authStore'
 import { pageBackground, pageWrapper, cardClass, headingClass, bodyText, secondaryBtn } from '../styles/common'
 
 
+const FollowButton = ({ targetId, setUser, currentUser }) => {
+  const [following, setFollowing] = useState(false)
+
+
+useEffect(() => {
+  const check = async () => {
+    try {
+      const res = await fetch(`http://localhost:3000/user/${targetId}`, { credentials: 'include' })
+      if (res.ok) {
+        const data = await res.json()
+        // check if currentUser is in their followers list
+        const isFollowing = data.payload?.followers?.some(
+          id => id?.toString() === currentUser?._id?.toString()
+        )
+        setFollowing(isFollowing)
+      }
+    } catch (err) { console.error(err) }
+  }
+  if (targetId && currentUser) check()
+}, [targetId, currentUser?._id])
+  const [loading, setLoading] = useState(false)
+
+  const handleFollow = async () => {
+    if (loading) return
+    setLoading(true)
+    try {
+      const endpoint = following ? 'unfollow' : 'follow'
+      const res = await fetch(`http://localhost:3000/user/${targetId}/${endpoint}`, {
+        method: 'PUT', credentials: 'include',
+      })
+      if (res.ok) {
+        setFollowing(prev => !prev)
+        setUser(prev => {
+         if (!prev) return prev
+         const followers = following
+          ? prev.followers.filter(id => id?.toString() !== currentUser?._id?.toString())
+           : [...(prev.followers || []), currentUser?._id]
+         return { ...prev, followers }
+        })
+    }
+      else { const d = await res.json(); console.error(d.message) }
+    } catch (err) { console.error(err) }
+    finally { setLoading(false) }
+  }
+
+  return (
+    <button
+      onClick={handleFollow}
+      disabled={loading}
+      style={{
+        background: following ? 'transparent' : 'var(--cur-accent)',
+        color: following ? 'var(--cur-text)' : '#fff',
+        border: `1px solid var(--cur-accent)`,
+        padding: '8px 20px', borderRadius: 999,
+        fontSize: 14, fontWeight: 600, cursor: 'pointer',
+        transition: 'all 0.2s'
+      }}
+    >
+      {loading ? '...' : following ? 'Following' : 'Follow'}
+    </button>
+  )
+}
+
+
+
 function UserProfile() {
   const { userId }             = useParams()
   const { currentUser, logout } = useAuth()
@@ -66,6 +131,7 @@ function UserProfile() {
   try {
     const formData = new FormData()
     if (editForm.bio) formData.append('bio', editForm.bio)
+    if (editForm.interests) formData.append('interests', JSON.stringify(editForm.interests))
     if (editForm.password) formData.append('password', editForm.password)
     if (editImage) formData.append('image', editImage)
 
@@ -104,8 +170,8 @@ function UserProfile() {
             </div>
 
             <div className="flex-1">
-              <h1 className={headingClass}>{user.firstname} {user.lastname}</h1>
-              <p className={`${bodyText} text-gray-500`}>@{user.username}</p>
+              <h1 style={{fontSize:24, fontWeight:700, color:'var(--cur-text)'}}>{user.firstname} {user.lastname}</h1>
+                <p style={{color:'var(--cur-muted)', marginTop:4}}>@{user.username}</p>
               {user.bio && <p className={`${bodyText} mt-2`}>{user.bio}</p>}
               <div className="flex gap-4 mt-4">
                 <span className={bodyText}><strong>{user.followers?.length || 0}</strong> Followers</span>
@@ -113,23 +179,21 @@ function UserProfile() {
                 <span className={bodyText}><strong>{posts.length}</strong> Posts</span>
               </div>
             </div>
-             ////
+            
             {isOwnProfile ? (
                 <div className="flex flex-col gap-2">
                <button onClick={() => setShowEditModal(true)} className="bg-black text-white text-sm px-5 py-2 rounded-full hover:bg-gray-800 transition">Edit Profile</button>
                <button onClick={handleLogout} className={secondaryBtn}>Logout</button>
              </div>
             ) : (
-              <button className="bg-black text-white text-sm px-5 py-2 rounded-full hover:bg-gray-800 transition">
-                Follow
-              </button>
+              <FollowButton targetId={userId} setUser={setUser} currentUser={currentUser} /> 
             )}
           </div>
         </div>
 
         {/* Posts */}
         <div>
-          <h2 className={`${headingClass} mb-6`}>{isOwnProfile ? 'Your Posts' : `${user.username}'s Posts`}</h2>
+          <h2 style={{fontSize:20, fontWeight:700, color:'var(--cur-text)', marginBottom:24}}>{isOwnProfile ? 'Your Posts' : `${user.username}'s Posts`}</h2>
 
           {posts.length === 0 ? (
             <div className={`${cardClass} text-center py-8`}>
@@ -175,7 +239,7 @@ function UserProfile() {
 
       </div>
 
-      ////
+    
       {showEditModal && (
   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl">
@@ -216,6 +280,38 @@ function UserProfile() {
         className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 outline-none focus:border-black"
         onChange={e => setEditForm(p => ({ ...p, password: e.target.value }))}
       />
+
+      {/* Interests */}
+      <div className="mb-4">
+       <p style={{fontSize:13, color:'var(--cur-muted)', marginBottom:8}}>Interests</p>
+       <div style={{display:'flex', flexWrap:'wrap', gap:8}}>
+       {['Music','Tech','Sports','Art','Gaming','Food','Travel','Fashion','Finance','Health'].map(interest => {
+      const selected = (editForm.interests || user.interests || []).includes(interest)
+      return (
+        <button
+          key={interest}
+          type="button"
+          onClick={() => {
+            const current = editForm.interests || user.interests || []
+            const updated = selected
+              ? current.filter(i => i !== interest)
+              : [...current, interest]
+            setEditForm(p => ({ ...p, interests: updated }))
+          }}
+          style={{
+            padding:'6px 14px', borderRadius:999, fontSize:13,
+            border: `1px solid ${selected ? 'var(--cur-accent)' : 'var(--cur-border)'}`,
+            background: selected ? 'var(--cur-accent)' : 'transparent',
+            color: selected ? '#fff' : 'var(--cur-text)',
+            cursor:'pointer', transition:'all 0.2s'
+          }}
+        >
+          {interest}
+        </button>
+      )
+    })}
+  </div>
+</div>
 
       <div className="flex gap-3">
         <button onClick={() => setShowEditModal(false)}

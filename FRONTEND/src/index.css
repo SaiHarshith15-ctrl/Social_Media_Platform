@@ -1,1 +1,47 @@
+*, *::before, *::after {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+body {
+  background-color: var(--cur-bg, #ffffff) !important;
+  color: var(--cur-text, #1d1d1f) !important;
+}
+
+/* Override Tailwind whites and grays with theme vars */
+.bg-white, .bg-\[#f5f5f7\], .bg-gray-50, .bg-gray-100 {
+  background-color: var(--cur-card, #ffffff) !important;
+}
+
+.text-\[#1d1d1f\], .text-gray-900, .text-black {
+  color: var(--cur-text, #1d1d1f) !important;
+}
+
+.text-\[#6e6e73\], .text-gray-500, .text-gray-600 {
+  color: var(--cur-muted, #6e6e73) !important;
+}
+
+.border-gray-200, .border-\[#e8e8ed\], .border-\[#d2d2d7\] {
+  border-color: var(--cur-border, #e5e7eb) !important;
+}
+
+/* Cards */
+.rounded-2xl, .rounded-xl {
+  background-color: var(--cur-card, #ffffff);
+}
+
+/* Inputs */
+input, textarea {
+  background-color: var(--cur-hover, #f5f5f7) !important;
+  color: var(--cur-text, #1d1d1f) !important;
+  border-color: var(--cur-border, #d2d2d7) !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--cur-muted, #a1a1a6) !important;
+}
+
+/* Main page wrapper */
+.min-h-screen {
+  background-color: var(--cur-bg, #ffffff) !important;
+}
 @import "tailwindcss";

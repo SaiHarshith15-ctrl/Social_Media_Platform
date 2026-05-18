@@ -21,6 +21,7 @@ const CreatePost = () => {
   const [preview, setPreview]   = useState(null)
   const [loading, setLoading]   = useState(false)
   const [error, setError]       = useState('')
+  const [category, setCategory] = useState('')
 
   const handleImageChange = (e) => {
     const file = e.target.files[0]
@@ -41,6 +42,7 @@ const CreatePost = () => {
     try {
       const formData = new FormData()
       formData.append('content', content)
+      if (category) formData.append('category', category)
       if (image) formData.append('image', image)
 
       const res = await fetch('http://localhost:3000/posts/post', {
@@ -68,7 +70,7 @@ const CreatePost = () => {
       <div className={pageWrapper}>
         <div className="max-w-2xl mx-auto">
 
-          <h1 className={`${headingClass} mb-6`}>Create a Post</h1>
+          <h1 style={{fontSize:24, fontWeight:700, color:'var(--cur-text)', marginBottom:24}}>Create a Post</h1>
 
           {error && (
             <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -106,6 +108,30 @@ const CreatePost = () => {
                 rows={5}
                 className={`${inputClass} resize-none w-full mb-4`}
               />
+
+
+              {/* Category selector */}
+          <div className="mb-4">
+            <label style={{fontSize:13, color:'var(--cur-muted)', marginBottom:6, display:'block'}}>
+              Category (optional)
+          </label>
+          <select
+              value={category}
+               onChange={e => setCategory(e.target.value)}
+            style={{
+              width:'100%', padding:'10px 14px', borderRadius:12,
+              border:'1px solid var(--cur-border)', 
+              background:'var(--cur-hover)',
+              color:'var(--cur-text)', fontSize:14, outline:'none'
+            }}
+             >
+
+          <option value=''>Select a category...</option>
+         {['Music','Tech','Sports','Art','Gaming','Food','Travel','Fashion','Finance','Health'].map(i => (
+          <option key={i} value={i}>{i}</option>
+         ))}
+      </select>
+      </div>
 
               {/* Image preview */}
               {preview && (

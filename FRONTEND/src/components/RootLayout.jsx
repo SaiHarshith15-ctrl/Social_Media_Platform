@@ -12,7 +12,7 @@ function RootLayout() {
     <div>
       {isAuthenticated ? <Sidebar /> : <Header />}
 
-      <div className='min-h-screen mx-32'>
+      <div className='min-h-screen' style={{marginLeft: isAuthenticated ? 80 : 0}}>
         <Outlet />
       </div>
 

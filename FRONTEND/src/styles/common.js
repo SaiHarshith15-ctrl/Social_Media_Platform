@@ -34,8 +34,7 @@ export const inputClass =
   "w-full bg-white border border-[#d2d2d7] rounded-xl px-4 py-2.5 text-[#1d1d1f] text-sm placeholder:text-[#a1a1a6] focus:outline-none focus:border-[#0066cc] focus:ring-2 focus:ring-[#0066cc]/10 transition";
 export const formGroup = "mb-4";
 export const submitBtn =
-  "w-full bg-[#0066cc] text-white font-semibold py-2.5 rounded-full hover:bg-[#004499] transition-colors cursor-pointer mt-2 text-sm tracking-tight";
-
+  "bg-blue-600 min-w-[100px] text-white py-2 rounded-full font-semibold hover:bg-blue-700 transition"
 // ─── Navbar ───────────────────────────────────────────
 export const navbarClass =
   "bg-white/85 backdrop-blur-xl backdrop-saturate-150 border-b border-[#e8e8ed] px-8 h-[52px] flex items-center sticky top-0 z-50";

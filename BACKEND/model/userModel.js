@@ -61,8 +61,9 @@ const UserSchema = new Schema({
         }
     ],
     interests: [{
-            type: String
-        }],
+     type: String,
+     enum: ['Music', 'Tech', 'Sports', 'Art', 'Gaming', 'Food', 'Travel', 'Fashion', 'Finance', 'Health']
+     }],
     notifications: [{
         type: {
             type: String,

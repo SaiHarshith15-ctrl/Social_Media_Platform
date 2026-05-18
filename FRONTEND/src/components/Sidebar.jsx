@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../store/authStore'
+import ThemePicker from './ThemePicker'
 
 const HomeIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
 const SearchIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
@@ -12,42 +13,61 @@ const Sidebar = ({ unreadCount = 0 }) => {
   const location = useLocation()
   const { currentUser } = useAuth()
 
-  const btn = (path) =>
-    `flex flex-col items-center gap-1 p-3 rounded-xl transition-all ${
-      location.pathname === path ? 'bg-black text-white' : 'text-gray-500 hover:bg-gray-100 hover:text-black'
-    }`
+  const btnStyle = (path) => ({
+    display:'flex', flexDirection:'column', alignItems:'center',
+    gap:4, padding:12, borderRadius:12, border:'none', cursor:'pointer',
+    width:56, height:56, justifyContent:'center',
+    background: location.pathname === path ? 'var(--cur-accent, #1d1d1f)' : 'transparent',
+    color: location.pathname === path ? '#ffffff' : 'var(--cur-muted, #6e6e73)',
+    transition:'all 0.2s'
+  })
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-20 flex flex-col items-center gap-4 py-8 border-r border-gray-200 bg-white z-40">
-      <div className="font-black text-xl mb-4">S</div>
+    <aside style={{
+      position:'fixed', left:0, top:0, height:'100vh', width:80,
+      display:'flex', flexDirection:'column', alignItems:'center',
+      gap:8, paddingTop:32, paddingBottom:24,
+      borderRight:'1px solid var(--cur-border, #e5e7eb)',
+      background:'var(--cur-sidebar, #ffffff)', zIndex:40,
+      transition:'background 0.3s, border-color 0.3s'
+    }}>
+      <div style={{fontWeight:900, fontSize:20, marginBottom:16, color:'var(--cur-accent, #0066cc)'}}>S</div>
 
-      <button onClick={() => navigate('/feed')} className={btn('/feed')} title="Home">
+      <button onClick={() => navigate('/feed')} style={btnStyle('/feed')} title="Home">
         <HomeIcon />
       </button>
 
-      <button onClick={() => navigate('/search')} className={btn('/search')} title="Search">
+      <button onClick={() => navigate('/search')} style={btnStyle('/search')} title="Search">
         <SearchIcon />
       </button>
 
-      <button onClick={() => navigate('/create-post')} className={btn('/create-post')} title="Create">
+      <button onClick={() => navigate('/create-post')} style={btnStyle('/create-post')} title="Create">
         <PlusIcon />
       </button>
 
-      <button onClick={() => navigate('/notifications')} className={`${btn('/notifications')} relative`} title="Notifications">
-        <BellIcon />
+      <div style={{position:'relative'}}>
+        <button onClick={() => navigate('/notifications')} style={btnStyle('/notifications')} title="Notifications">
+          <BellIcon />
+        </button>
         {unreadCount > 0 && (
-          <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
+          <span style={{position:'absolute', top:8, right:8, width:10, height:10,
+            background:'#ef4444', borderRadius:'50%', border:'2px solid var(--cur-sidebar)'}} />
         )}
-      </button>
+      </div>
 
-      <button onClick={() => navigate('/user-profile')} className={btn('/user-profile')} title="Profile">
-        <div className="w-8 h-8 rounded-full bg-gray-300 overflow-hidden flex items-center justify-center">
+      <button onClick={() => navigate('/user-profile')} style={btnStyle('/user-profile')} title="Profile">
+        <div style={{width:32, height:32, borderRadius:'50%', background:'var(--cur-muted,#ccc)',
+          overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center'}}>
           {currentUser?.profileImageUrl
-            ? <img src={currentUser.profileImageUrl} className="w-full h-full object-cover" />
-            : <span className="text-xs font-bold text-gray-600">{currentUser?.firstname?.[0]}</span>
+            ? <img src={currentUser.profileImageUrl} style={{width:'100%', height:'100%', objectFit:'cover'}} />
+            : <span style={{fontSize:12, fontWeight:'bold', color:'var(--cur-text)'}}>{currentUser?.firstname?.[0]}</span>
           }
         </div>
       </button>
+      {/* spacer to push theme to bottom */}
+      <div style={{ flex: 1 }} />
+      <ThemePicker />
+
     </aside>
   )
 }

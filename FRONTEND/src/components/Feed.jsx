@@ -81,12 +81,15 @@ const PostCard = ({ post, currentUser, onDelete }) => {
     if (loadingFollow) return
     setLoadingFollow(true)
     try {
-      const res = await fetch(`http://localhost:3000/user/${author._id}/follow`, {
+      const endpoint = following ? 'unfollow' : 'follow'
+      const res = await fetch(`http://localhost:3000/user/${author._id}/${endpoint}`, {
         method: 'PUT', credentials: 'include',
       })
       if (res.ok) {
+        setFollowing(prev => !prev)
+      } else {
         const data = await res.json()
-        setFollowing(data.following)
+        console.error('Follow error:', data.message)
       }
     } catch (err) { console.error(err) }
     finally { setLoadingFollow(false) }
@@ -255,9 +258,11 @@ const Feed = () => {
       <Sidebar />
 
       {/* MAIN */}
-      <main className="ml-20 flex-1 max-w-2xl mx-auto px-4 py-8">
+      <main style={{marginLeft:200, marginRight:200 , flex:1, padding:'16px 32px'}}>
+       <div style={{maxWidth:680, margin:'0 auto'}}></div>
+        <div style={{maxWidth:680, margin:'0 auto'}}></div>
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-xl font-bold">New Posts</h1>
+          <h1 style={{fontSize:20, fontWeight:700, color:'var(--cur-text)'}}>New Posts</h1>
           <button onClick={() => navigate('/create-post')}
             className="flex items-center gap-2 bg-black text-white text-sm px-4 py-2 rounded-full hover:bg-gray-800 transition">
             <PlusIcon /> New Post

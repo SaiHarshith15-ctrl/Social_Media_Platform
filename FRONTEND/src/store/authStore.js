@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import axios from 'axios'
-
+import { applyTheme } from '../styles/themes'
 export const useAuth = create((set) => ({
 
   currentUser: null,
@@ -98,6 +98,8 @@ export const useAuth = create((set) => ({
         { withCredentials: true }
       )
 
+      applyTheme('light')
+      localStorage.setItem('app-theme', 'light')
       set({ loading: false, isAuthenticated: false, currentUser: null })
 
     } catch (err) {
