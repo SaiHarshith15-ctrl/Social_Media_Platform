@@ -12,7 +12,10 @@ import googleAuthRoute from "./APIs/googleAuth.js"
 
 const app=exp()
 app.use(cors({
-    origin:['http://localhost:5173'],
+    origin:[
+        'http://localhost:5173',
+        'https://socialmediaplatformm.netlify.app'
+    ],
     credentials:true
 }))
 async function  connectDB(){
