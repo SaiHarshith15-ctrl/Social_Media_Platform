@@ -13,7 +13,6 @@ import googleAuthRoute from "./APIs/googleAuth.js"
 const app=exp()
 app.use(cors({
     origin:[
-        'http://localhost:5173',
         'https://socialmediaplatformm.netlify.app'
     ],
     credentials:true
@@ -25,7 +24,8 @@ async function  connectDB(){
         console.log("DB connected sucessfully")
         
         // start server
-        app.listen(3000,()=>console.log("server on port 3000..."))
+        const PORT = process.env.PORT || 3000
+        app.listen(PORT,()=>console.log(`server on port ${PORT}...`))
     }catch (err){
         console.log("Error in connection:",err)
     }
