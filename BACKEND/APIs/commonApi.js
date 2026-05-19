@@ -50,8 +50,8 @@ commonApp.post("/login",async(req,res)=>{
 
     res.cookie("token",signtoken,{
         httpOnly:true,
-        sameSite:"lax",
-        secure:false
+        sameSite:"none",
+        secure:true
     })
     const userObj=user.toObject()
     delete userObj.password
@@ -76,8 +76,8 @@ commonApp.get("/check-auth", verifyToken(), async (req, res) => {
 commonApp.get("/logout",(req,res)=>{
     res.clearCookie("token",{
         httpOnly:true,
-        sameSite:"lax",
-        secure:false
+        sameSite:"none",
+        secure:true
     })
     res.status(200).json({message:"Logout success"})
 })
