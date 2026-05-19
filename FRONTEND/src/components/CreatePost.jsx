@@ -46,7 +46,7 @@ const CreatePost = () => {
       if (category) formData.append('category', category)
       if (image) formData.append('image', image)
 
-      const res = await fetch('${API_URL}/posts/post', {
+      const res = await fetch(`${API_URL}/posts/post`, {
         method: 'POST',
         credentials: 'include',
         body: formData,
