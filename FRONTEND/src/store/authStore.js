@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import axios from 'axios'
 import { applyTheme } from '../styles/themes'
+import { API_URL } from '../../config.js'
 
 export const useAuth = create((set) => ({
 
@@ -15,7 +16,7 @@ export const useAuth = create((set) => ({
       set({ loading: true, error: null })
 
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/register`,
+        `${API_URL}/auth/register`,
         formData,
         { withCredentials: true }
       )
@@ -38,7 +39,7 @@ export const useAuth = create((set) => ({
       set({ loading: true, error: null })
 
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/login`,
+        `${API_URL}/auth/login`,
         userCredObj,
         { withCredentials: true }
       )
@@ -65,7 +66,7 @@ export const useAuth = create((set) => ({
       set({ loading: true, error: null })
 
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/google`,
+        `${API_URL}/auth/google`,
         { credential },
         { withCredentials: true }
       )
@@ -95,7 +96,7 @@ export const useAuth = create((set) => ({
       set({ loading: true, error: null })
 
       await axios.get(
-        `${import.meta.env.VITE_API_URL}/auth/logout`,
+        `${API_URL}/auth/logout`,
         { withCredentials: true }
       )
 
@@ -124,7 +125,7 @@ export const useAuth = create((set) => ({
       set({ loading: true })
 
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/auth/check-auth`,
+        `${API_URL}/auth/check-auth`,
         { withCredentials: true }
       )
 

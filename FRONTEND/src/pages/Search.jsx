@@ -27,7 +27,7 @@ const Search = () => {
     setLoadingPosts(true)
     try {
       const q = interests.length > 0 ? `?interests=${interests.join(',')}` : ''
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/posts/by-interests${q}`, { credentials: 'include' })
+      const res = await fetch(`${API_URL}/posts/by-interests${q}`, { credentials: 'include' })
       if (res.ok) {
         const data = await res.json()
         setPosts(data.posts || [])
