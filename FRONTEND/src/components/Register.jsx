@@ -13,6 +13,7 @@ import {
   linkClass,
 } from '../styles/common'
 import { useAuth } from '../store/authStore'   // lowercase 'store' — keep consistent
+import { API_URL } from '../../config.js'
 
 const Register = () => {
   const [formData, setFormData] = useState({

@@ -11,6 +11,7 @@ import {
   headingClass,
   section,
 } from '../styles/common'
+import { API_URL } from '../../config.js'
 
 // NOTE: No <nav> here — RootLayout already renders <Header> for all pages.
 

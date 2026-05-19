@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../store/authStore'
 import { cardClass, bodyText } from '../styles/common'
 import Sidebar from '../components/Sidebar'
+import { API_URL } from '../../config.js'
 
 const HomeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -65,7 +66,7 @@ const PostCard = ({ post, currentUser, onDelete }) => {
     if (loadingLike) return
     setLoadingLike(true)
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/likes/${post._id}`, {
+      const res = await fetch(`${API_URL}/likes/${post._id}`, {
         method: 'PUT', credentials: 'include',
       })
       if (res.ok) {
@@ -82,7 +83,7 @@ const PostCard = ({ post, currentUser, onDelete }) => {
     setLoadingFollow(true)
     try {
       const endpoint = following ? 'unfollow' : 'follow'
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/${author._id}/${endpoint}`, {
+      const res = await fetch(`${API_URL}/user/${author._id}/${endpoint}`, {
         method: 'PUT', credentials: 'include',
       })
       if (res.ok) {
@@ -99,7 +100,7 @@ const PostCard = ({ post, currentUser, onDelete }) => {
     if (!commentText.trim() || loadingComment) return
     setLoadingComment(true)
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/posts/${post._id}`, {
+      const res = await fetch(`${API_URL}/posts/${post._id}`, {
         method: 'POST', credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ comment: commentText }),
@@ -118,7 +119,7 @@ const PostCard = ({ post, currentUser, onDelete }) => {
   const handleDelete = async () => {
     if (!window.confirm('Delete this post?')) return
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/posts/${post._id}`, {
+      const res = await fetch(`${API_URL}/posts/${post._id}`, {
         method: 'DELETE', credentials: 'include',
       })
       if (res.ok) onDelete(post._id)
@@ -239,7 +240,7 @@ const Feed = () => {
 
   const fetchPosts = async (pageNum) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/posts/?page=${pageNum}&limit=10`, { credentials: 'include' })
+      const res = await fetch(`${API_URL}/posts/?page=${pageNum}&limit=10`, { credentials: 'include' })
       if (res.ok) {
         const data    = await res.json()
         const fetched = data.posts || []

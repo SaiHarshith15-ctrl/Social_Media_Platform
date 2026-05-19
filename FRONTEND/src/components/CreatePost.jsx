@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../store/authStore'
+import { API_URL } from '../../config.js'
 import {
   pageBackground,
   pageWrapper,
@@ -45,7 +46,7 @@ const CreatePost = () => {
       if (category) formData.append('category', category)
       if (image) formData.append('image', image)
 
-      const res = await fetch('${import.meta.env.VITE_API_URL}/posts/post', {
+      const res = await fetch('${API_URL}/posts/post', {
         method: 'POST',
         credentials: 'include',
         body: formData,

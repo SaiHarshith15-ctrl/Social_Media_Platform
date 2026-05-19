@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../store/authStore'
 import Sidebar from '../components/Sidebar'
 import { cardClass, bodyText } from '../styles/common'
+import { API_URL } from '../../config.js'
+// use API_URL instead of import.meta.env.VITE_API_URL
 
 const INTERESTS = ['Music','Tech','Sports','Art','Gaming','Food','Travel','Fashion','Finance','Health']
 
@@ -40,7 +42,7 @@ const Search = () => {
     if (!val.trim()) { setUserResults([]); return }
     setSearching(true)
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/search/${val}`, { credentials: 'include' })
+      const res = await fetch(`${API_URL}/user/search/${val}`, { credentials: 'include' })
       const data = await res.json()
       setUserResults(data.payload || [])
     } catch (err) { console.error(err) }

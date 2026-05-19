@@ -2,6 +2,7 @@ import React from "react"
 import { NavLink } from "react-router-dom"
 import { useAuth } from "../store/authStore"
 import Notifications from "./Notifications"
+import { API_URL } from '../../config.js'
 import {
   navbarClass,
   navContainerClass,

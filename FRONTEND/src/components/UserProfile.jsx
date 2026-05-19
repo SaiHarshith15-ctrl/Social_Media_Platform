@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../store/authStore'
+import { API_URL } from '../../config.js'
 import { pageBackground, pageWrapper, cardClass, headingClass, bodyText, secondaryBtn } from '../styles/common'
 
 
@@ -11,7 +12,7 @@ const FollowButton = ({ targetId, setUser, currentUser }) => {
 useEffect(() => {
   const check = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/${targetId}`, { credentials: 'include' })
+      const res = await fetch(`${API_URL}/user/${targetId}`, { credentials: 'include' })
       if (res.ok) {
         const data = await res.json()
         // check if currentUser is in their followers list
@@ -31,7 +32,7 @@ useEffect(() => {
     setLoading(true)
     try {
       const endpoint = following ? 'unfollow' : 'follow'
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/${targetId}/${endpoint}`, {
+      const res = await fetch(`${API_URL}/user/${targetId}/${endpoint}`, {
         method: 'PUT', credentials: 'include',
       })
       if (res.ok) {
@@ -99,7 +100,7 @@ function UserProfile() {
 
   const fetchUser = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/${userId}`, { credentials: 'include' })
+      const res = await fetch(`${API_URL}/user/${userId}`, { credentials: 'include' })
       if (res.ok) {
         const data = await res.json()
         setUser(data.payload)
@@ -109,7 +110,7 @@ function UserProfile() {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/posts/user/${targetId}`, { credentials: 'include' })
+      const res = await fetch(`${API_URL}/posts/user/${targetId}`, { credentials: 'include' })
       if (res.ok) {
         const data = await res.json()
         setPosts(data.payload || [])
@@ -135,7 +136,7 @@ function UserProfile() {
     if (editForm.password) formData.append('password', editForm.password)
     if (editImage) formData.append('image', editImage)
 
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/user/edit-profile`, {
+    const res = await fetch(`${API_URL}/user/edit-profile`, {
       method: 'PUT',
       credentials: 'include',
       body: formData,

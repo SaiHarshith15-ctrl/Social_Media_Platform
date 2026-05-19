@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../store/authStore'   // lowercase 'store'
+import { API_URL } from '../../config.js'
 import {
   pageBackground,
   pageWrapper,
@@ -26,7 +27,7 @@ function Profile() {
   const fetchUserPosts = async () => {
     try {
       // Uses the correct endpoint: GET /posts/user/:userId (protected)
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/user/${user._id}`, {
+      const response = await fetch(`${API_URL}/posts/user/${user._id}`, {
         credentials: 'include',
       })
       if (response.ok) {

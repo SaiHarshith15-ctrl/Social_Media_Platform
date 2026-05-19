@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
+import { API_URL } from '../../config.js'
 
 const NotificationsPage = () => {
   const [notifications, setNotifications] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('${import.meta.env.VITE_API_URL}/notification', { credentials: 'include' })
+    fetch('${API_URL}/notification', { credentials: 'include' })
       .then(r => r.json())
       .then(d => setNotifications(d.notifications || []))
       .finally(() => setLoading(false))
   }, [])
 
   const clearAll = async () => {
-    await fetch('${import.meta.env.VITE_API_URL}/notification', { method: 'DELETE', credentials: 'include' })
+    await fetch('${API_URL}/notification', { method: 'DELETE', credentials: 'include' })
     setNotifications([])
   }
 

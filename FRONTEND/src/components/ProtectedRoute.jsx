@@ -1,6 +1,7 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '../store/authStore'   // lowercase 'store'
+import { API_URL } from '../../config.js'
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth()

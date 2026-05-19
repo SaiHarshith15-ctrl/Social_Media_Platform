@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { API_URL } from '../../config.js'
 
 const BellIcon = ({ hasUnread }) => (
   <div className="relative">
@@ -39,7 +40,7 @@ const Notifications = () => {
   const fetchNotifications = async () => {
     setLoading(true)
     try {
-      const res = await fetch('${import.meta.env.VITE_API_URL}/notification', {
+      const res = await fetch('${API_URL}/notification', {
         credentials: 'include',
       })
       if (res.ok) {
@@ -55,7 +56,7 @@ const Notifications = () => {
 
   const markAsRead = async (notifId) => {
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/notification/${notifId}/read`, {
+      await fetch(`${API_URL}/notification/${notifId}/read`, {
         method: 'PUT', credentials: 'include',
       })
       setNotifications(prev =>
@@ -66,7 +67,7 @@ const Notifications = () => {
 
   const clearAll = async () => {
     try {
-      await fetch('${import.meta.env.VITE_API_URL}/notification', {
+      await fetch('${API_URL}/notification', {
         method: 'DELETE', credentials: 'include',
       })
       setNotifications([])
